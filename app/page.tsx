@@ -477,18 +477,33 @@ export default function Portfolio() {
                     </div>
                     <div className="flex items-center gap-3 text-white/80">
                       <MapPin className="h-5 w-5" />
-                      <span>Visakhapatnam, Andhra Pradesh</span>
+                      <span>Bengaluru, Karnataka</span>
                     </div>
                     <div className="flex gap-4 pt-4">
-                      <Button size="sm" variant="outline" className="border-white/20 text-black hover:bg-white/10 hover:text-white">
-                        <Github className="h-4 w-4 mr-2" />
-                        GitHub
-                      </Button>
-                      <Button size="sm" variant="outline" className="border-white/20 text-black hover:bg-white/10 hover:text-white">
-                        <Linkedin className="h-4 w-4 mr-2" />
-                        LinkedIn
-                      </Button>
-                    </div>
+  <Button
+    asChild
+    size="sm"
+    variant="outline"
+    className="border-white/20 text-black hover:bg-white/10 hover:text-white"
+  >
+    <a href="https://github.com/Himanshu-370" target="_blank" rel="noopener noreferrer">
+      <Github className="h-4 w-4 mr-2" />
+      GitHub
+    </a>
+  </Button>
+  <Button
+    asChild
+    size="sm"
+    variant="outline"
+    className="border-white/20 text-black hover:bg-white/10 hover:text-white"
+  >
+    <a href="https://www.linkedin.com/in/himanshusingh20/" target="_blank" rel="noopener noreferrer">
+      <Linkedin className="h-4 w-4 mr-2" />
+      LinkedIn
+    </a>
+  </Button>
+</div>
+
                   </CardContent>
                 </Card>
               </motion.div>
@@ -504,33 +519,49 @@ export default function Portfolio() {
                     <CardTitle className="text-white">Quick Contact</CardTitle>
                   </CardHeader>
                   <CardContent className="space-y-4">
-                    <div>
-                      <label className="text-white/80 text-sm">Name</label>
-                      <input
-                        type="text"
-                        className="w-full mt-1 p-3 bg-white/10 border border-white/20 rounded-md text-white placeholder-white/50"
-                        placeholder="Your name"
-                      />
-                    </div>
-                    <div>
-                      <label className="text-white/80 text-sm">Email</label>
-                      <input
-                        type="email"
-                        className="w-full mt-1 p-3 bg-white/10 border border-white/20 rounded-md text-white placeholder-white/50"
-                        placeholder="your@email.com"
-                      />
-                    </div>
-                    <div>
-                      <label className="text-white/80 text-sm">Message</label>
-                      <textarea
-                        rows={4}
-                        className="w-full mt-1 p-3 bg-white/10 border border-white/20 rounded-md text-white placeholder-white/50"
-                        placeholder="Tell me about your project..."
-                      />
-                    </div>
-                    <Button className="w-full bg-gradient-to-r from-blue-500 to-purple-500 hover:from-blue-600 hover:to-purple-600">
-                      Send Message
-                    </Button>
+                    <form
+  action="https://formspree.io/f/xqabznjj"
+  method="POST"
+  className="space-y-4"
+>
+  <div>
+    <label className="text-white/80 text-sm">Name</label>
+    <input
+      type="text"
+      name="name"
+      required
+      className="w-full mt-1 p-3 bg-white/10 border border-white/20 rounded-md text-white placeholder-white/50"
+      placeholder="Your name"
+    />
+  </div>
+  <div>
+    <label className="text-white/80 text-sm">Email</label>
+    <input
+      type="email"
+      name="email"
+      required
+      className="w-full mt-1 p-3 bg-white/10 border border-white/20 rounded-md text-white placeholder-white/50"
+      placeholder="your@email.com"
+    />
+  </div>
+  <div>
+    <label className="text-white/80 text-sm">Message</label>
+    <textarea
+      name="message"
+      rows={4}
+      required
+      className="w-full mt-1 p-3 bg-white/10 border border-white/20 rounded-md text-white placeholder-white/50"
+      placeholder="Tell me about your project..."
+    />
+  </div>
+  <Button
+    type="submit"
+    className="w-full bg-gradient-to-r from-blue-500 to-purple-500 hover:from-blue-600 hover:to-purple-600"
+  >
+    Send Message
+  </Button>
+</form>
+
                   </CardContent>
                 </Card>
               </motion.div>
