@@ -30,7 +30,7 @@ const statusWord = p.status;
       {p.summary && <p class="muted summary">{p.summary}</p>}
       <p class="meta mono muted">
         <span class="m"><span class={p.status === "active" ? "dot" : "dot dot-idle"} aria-hidden="true"></span>{statusWord}</span>
-        {p.stars !== undefined && <span class="m">★ {p.stars}</span>}
+        {p.stars !== undefined && p.stars > 0 && <span class="m">★ {p.stars}</span>}
         {p.language && <span class="m">{p.language}</span>}
         {updated && <span class="m">updated {updated}</span>}
       </p>
