@@ -40,6 +40,7 @@ export interface ManualProject {
 
 export interface Profile {
   name: string;
+  site: { title: string; twitterHandle: string };
   githubUser: string;
   status: string;
   headline: { lead: string; tail: string };
@@ -60,6 +61,7 @@ export interface Profile {
 
 export const profile: Profile = {
   name: "Himanshu Singh",
+  site: { title: "Himanshu Singh — Software Engineer", twitterHandle: "@himlabs" },
   githubUser: "Himanshu-370",
   status: "open to opportunities",
   headline: {

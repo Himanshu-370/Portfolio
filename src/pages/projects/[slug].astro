@@ -1,0 +1,230 @@
+---
+import Base from "@/layouts/Base.astro";
+import TopBar from "@/components/TopBar.astro";
+import Footer from "@/components/Footer.astro";
+import { getSiteData } from "@/lib/site";
+import { formatMonth } from "@/lib/format";
+
+export async function getStaticPaths() {
+  const { projects } = await getSiteData();
+  return projects.map((project) => ({ params: { slug: project.slug }, props: { project } }));
+}
+
+const { project: p } = Astro.props;
+const { data, profile } = await getSiteData();
+const gallery = [...new Set([p.cover, ...p.images].filter((u): u is string => Boolean(u)))];
+const updated = p.pushedAt ? formatMonth(p.pushedAt.slice(0, 7)) : undefined;
+const statusWord = p.status;
+---
+
+<Base
+  title={`${p.name} — ${profile.name}`}
+  description={p.summary || `Project by ${profile.name}`}
+  path={`/projects/${p.slug}`}
+>
+  <TopBar slot="header" />
+  <div class="wrap page">
+    <a class="back mono" href="/">← Back to dashboard</a>
+    <header class="head">
+      <h1>{p.name}</h1>
+      {p.summary && <p class="muted summary">{p.summary}</p>}
+      <p class="meta mono muted">
+        <span class="m"><span class={p.status === "active" ? "dot" : "dot dot-idle"} aria-hidden="true"></span>{statusWord}</span>
+        {p.stars !== undefined && <span class="m">★ {p.stars}</span>}
+        {p.language && <span class="m">{p.language}</span>}
+        {updated && <span class="m">updated {updated}</span>}
+      </p>
+      {
+        p.githubUrl && (
+          <a class="btn btn-primary" href={p.githubUrl} target="_blank" rel="noopener noreferrer">
+            View on GitHub ↗
+          </a>
+        )
+      }
+    </header>
+    {
+      gallery.length > 0 && (
+        <div class="gallery">
+          {gallery.map((src, i) => (
+            <img src={src} alt={`${p.name} screenshot ${i + 1}`} loading="lazy" />
+          ))}
+        </div>
+      )
+    }
+    {p.bodyHtml.trim() !== "" && <article class="prose" set:html={p.bodyHtml} />}
+  </div>
+  <Footer slot="footer" syncedAt={data.syncedAt} />
+</Base>
+
+<style>
+  .page {
+    padding-block: 24px 56px;
+    display: grid;
+    gap: 28px;
+  }
+  .back {
+    font-size: 12px;
+    text-decoration: none;
+    color: var(--muted-text);
+    justify-self: start;
+  }
+  .back:hover {
+    color: var(--ink);
+  }
+  .head {
+    display: grid;
+    gap: 12px;
+    justify-items: start;
+  }
+  h1 {
+    margin: 0;
+    font-size: clamp(28px, 5vw, 40px);
+    letter-spacing: -0.02em;
+    line-height: 1.1;
+    overflow-wrap: anywhere;
+  }
+  .summary {
+    margin: 0;
+    max-width: 72ch;
+    font-size: 16px;
+  }
+  .meta {
+    margin: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px 16px;
+    font-size: 12px;
+  }
+  .m {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .gallery {
+    display: grid;
+    gap: 12px;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 320px), 1fr));
+  }
+  .gallery img {
+    width: 100%;
+    height: auto;
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    background: var(--card);
+  }
+
+  .prose {
+    max-width: 72ch;
+    min-width: 0;
+    line-height: 1.7;
+    color: var(--ink-soft);
+    overflow-wrap: break-word;
+  }
+  .prose :global(> :first-child) {
+    margin-top: 0;
+  }
+  .prose :global(h1),
+  .prose :global(h2),
+  .prose :global(h3),
+  .prose :global(h4) {
+    color: var(--ink);
+    line-height: 1.25;
+    letter-spacing: -0.01em;
+    margin: 1.8em 0 0.6em;
+  }
+  .prose :global(h1) {
+    font-size: 28px;
+  }
+  .prose :global(h2) {
+    font-size: 22px;
+    padding-bottom: 6px;
+    border-bottom: 1px solid var(--line);
+  }
+  .prose :global(h3) {
+    font-size: 18px;
+  }
+  .prose :global(h4) {
+    font-size: 16px;
+  }
+  .prose :global(p),
+  .prose :global(ul),
+  .prose :global(ol),
+  .prose :global(blockquote),
+  .prose :global(pre),
+  .prose :global(table) {
+    margin: 0 0 1em;
+  }
+  .prose :global(ul),
+  .prose :global(ol) {
+    padding-left: 1.4em;
+  }
+  .prose :global(ul) {
+    list-style: disc;
+  }
+  .prose :global(ol) {
+    list-style: decimal;
+  }
+  .prose :global(li + li) {
+    margin-top: 0.25em;
+  }
+  .prose :global(a) {
+    color: var(--release);
+    text-decoration: underline;
+    text-underline-offset: 2px;
+  }
+  .prose :global(code) {
+    font-family: var(--font-mono);
+    font-size: 0.88em;
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: var(--radius-sm);
+    padding: 0.1em 0.35em;
+  }
+  .prose :global(pre) {
+    font-family: var(--font-mono);
+    font-size: 13px;
+    line-height: 1.6;
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    padding: 14px 16px;
+    overflow-x: auto;
+  }
+  .prose :global(pre code) {
+    background: none;
+    border: 0;
+    padding: 0;
+    font-size: inherit;
+  }
+  .prose :global(table) {
+    display: block;
+    max-width: 100%;
+    overflow-x: auto;
+    border-collapse: collapse;
+    font-size: 14px;
+  }
+  .prose :global(th),
+  .prose :global(td) {
+    border: 1px solid var(--line);
+    padding: 6px 12px;
+    text-align: left;
+  }
+  .prose :global(th) {
+    background: var(--card);
+    color: var(--ink);
+  }
+  .prose :global(img) {
+    max-width: 100%;
+    height: auto;
+  }
+  .prose :global(blockquote) {
+    border-left: 3px solid var(--line-strong);
+    padding-left: 16px;
+    color: var(--muted-text);
+  }
+  .prose :global(hr) {
+    border: 0;
+    border-top: 1px solid var(--line);
+    margin: 2em 0;
+  }
+</style>

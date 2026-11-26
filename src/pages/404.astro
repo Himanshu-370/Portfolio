@@ -1,0 +1,37 @@
+---
+import Base from "@/layouts/Base.astro";
+import TopBar from "@/components/TopBar.astro";
+import Footer from "@/components/Footer.astro";
+import { getSiteData } from "@/lib/site";
+
+const { data } = await getSiteData();
+---
+
+<Base title="404 — Himanshu Singh" description="Page not found." path="/404">
+  <TopBar slot="header" />
+  <section class="wrap nf">
+    <h1 class="mono">404 · route not found</h1>
+    <p class="muted">That path doesn't exist on this site.</p>
+    <a class="btn" href="/">← Back to dashboard</a>
+  </section>
+  <Footer slot="footer" syncedAt={data.syncedAt} />
+</Base>
+
+<style>
+  .nf {
+    padding-block: 96px;
+    display: grid;
+    gap: 16px;
+    justify-items: start;
+  }
+  h1 {
+    margin: 0;
+    font-size: 28px;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+    overflow-wrap: anywhere;
+  }
+  p {
+    margin: 0;
+  }
+</style>

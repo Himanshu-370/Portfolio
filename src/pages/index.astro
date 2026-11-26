@@ -14,7 +14,7 @@ import { getSiteData } from "@/lib/site";
 const { profile, stats, projects, events, spans, data } = await getSiteData();
 ---
 
-<Base title="Himanshu Singh — Software Engineer" description={profile.intro} path="/">
+<Base title={profile.site.title} description={profile.intro} path="/">
   <TopBar slot="header" status={profile.status} />
   <section class="wrap overview" aria-labelledby="hero-title">
     <Hero headline={profile.headline} intro={profile.intro} resumeUrl={profile.resumeUrl} />

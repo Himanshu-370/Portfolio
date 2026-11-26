@@ -2,6 +2,7 @@
 import "@fontsource-variable/inter";
 import "@fontsource-variable/jetbrains-mono";
 import "@/styles/global.css";
+import { profile } from "@/data/profile";
 
 interface Props {
   title: string;
@@ -28,7 +29,7 @@ const ogImage = new URL("/og.png", site).href;
     <meta name="color-scheme" content="light dark" />
 
     <meta property="og:type" content="website" />
-    <meta property="og:site_name" content="Himanshu Singh" />
+    <meta property="og:site_name" content={profile.name} />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
     <meta property="og:url" content={canonical} />
@@ -37,7 +38,7 @@ const ogImage = new URL("/og.png", site).href;
     <meta property="og:image:height" content="630" />
 
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:site" content="@himlabs" />
+    <meta name="twitter:site" content={profile.site.twitterHandle} />
     <meta name="twitter:title" content={title} />
     <meta name="twitter:description" content={description} />
     <meta name="twitter:image" content={ogImage} />
