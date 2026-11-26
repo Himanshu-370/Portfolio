@@ -1,35 +1,36 @@
 @import "tailwindcss";
 
 /* ------------------------------------------------------------------
-   Design tokens. Light is the default; dark follows the OS setting.
+   Design tokens. Each color is light-dark(light, dark): it follows the OS
+   setting unless the theme toggle pins html[data-theme].
    Later sections reuse these vars and the component classes below.
    ------------------------------------------------------------------ */
 :root {
   color-scheme: light dark;
 
-  --bg: #f7f7f5;
-  --card: #ffffff;
-  --ink: #151515;
-  --ink-soft: #4a4a45; /* body copy on cards; darker than --muted for AA contrast */
-  --muted: #82827c; /* decoration only (icons, rules); NOT for text: 3.6:1 */
-  --muted-text: #6b6b65; /* secondary text: 5.0:1 on bg, 5.4:1 on card */
-  --line: #e6e6e1;
-  --line-strong: #d6d6cf;
-  --tail: #85857e; /* gray second half of headlines (large text only): 3.5:1 on bg */
+  --bg: light-dark(#f7f7f5, #0f0f0e);
+  --card: light-dark(#ffffff, #171716);
+  --ink: light-dark(#151515, #ededea);
+  --ink-soft: light-dark(#4a4a45, #c4c4bf); /* body copy on cards; darker than --muted for AA contrast */
+  --muted: light-dark(#82827c, #8f8f89); /* decoration only (icons, rules); NOT for text: 3.6:1 */
+  --muted-text: light-dark(#6b6b65, #8f8f89); /* secondary text: 5.0:1 on bg, 5.4:1 on card */
+  --line: light-dark(#e6e6e1, #2a2a28);
+  --line-strong: light-dark(#d6d6cf, #3a3a37);
+  --tail: light-dark(#85857e, #6f6f6a); /* gray second half of headlines (large text only): 3.5:1 on bg */
 
   /* Level text darkened from the plan's #1a7f37 / #9a6700 to reach AA at 10px. */
-  --merged: #176f31;
-  --merged-bg: #e6f4ea;
-  --open: #8a5d00;
-  --open-bg: #fdf3e1;
-  --release: #3451b2;
-  --release-bg: #eaeefb;
+  --merged: light-dark(#176f31, #3fb950);
+  --merged-bg: light-dark(#e6f4ea, rgb(63 185 80 / 15%));
+  --open: light-dark(#8a5d00, #d29922);
+  --open-bg: light-dark(#fdf3e1, rgb(210 153 34 / 15%));
+  --release: light-dark(#3451b2, #8ea4f5);
+  --release-bg: light-dark(#eaeefb, rgb(110 140 240 / 15%));
 
   --ok: #3fb950; /* status dot */
-  --idle: #c9c9c4; /* archived / inactive dot */
+  --idle: light-dark(#c9c9c4, #4a4a46); /* archived / inactive dot */
 
-  --btn-ink-fg: #ffffff;
-  --focus: #3451b2;
+  --btn-ink-fg: light-dark(#ffffff, #0f0f0e);
+  --focus: light-dark(#3451b2, #8ea4f5);
 
   --radius: 10px;
   --radius-sm: 6px;
@@ -42,29 +43,11 @@
   --ease: 150ms ease;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --bg: #0f0f0e;
-    --card: #171716;
-    --ink: #ededea;
-    --ink-soft: #c4c4bf;
-    --muted: #8f8f89;
-    --muted-text: #8f8f89;
-    --line: #2a2a28;
-    --line-strong: #3a3a37;
-    --tail: #6f6f6a;
-
-    --merged: #3fb950;
-    --merged-bg: rgb(63 185 80 / 15%);
-    --open: #d29922;
-    --open-bg: rgb(210 153 34 / 15%);
-    --release: #8ea4f5;
-    --release-bg: rgb(110 140 240 / 15%);
-
-    --idle: #4a4a46;
-    --btn-ink-fg: #0f0f0e;
-    --focus: #8ea4f5;
-  }
+:root[data-theme="light"] {
+  color-scheme: light;
+}
+:root[data-theme="dark"] {
+  color-scheme: dark;
 }
 
 @media (max-width: 599px) {
