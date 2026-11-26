@@ -33,6 +33,7 @@ Almost everything lives in `src/data/profile.ts`:
 - `hiddenPRs`: pull request URLs to leave out of the activity feed.
 - `calLink`: your Cal.com `username/event-slug`. While it is `null`, no booking button is shown.
 - Career, skills, socials and the intro text are in the same file.
+- For an authenticated local `npm run sync`, copy `.env.example` to `.env` and put a GitHub token there.
 
 To refresh the committed GitHub snapshot, run `npm run sync`, then commit `src/data/github-snapshot.json` through a pull request.
 

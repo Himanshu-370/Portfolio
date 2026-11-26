@@ -14,7 +14,7 @@ export async function ghFetch<T>(
   const token = process.env.GITHUB_TOKEN;
   if (token) headers.Authorization = `Bearer ${token}`;
 
-  const res = await doFetch(`${BASE}${path}`, { headers });
+  const res = await doFetch(`${BASE}${path}`, { headers, signal: AbortSignal.timeout(10_000) });
   if (res.status === 404) throw new GitHubNotFound(`GitHub 404: ${path}`);
   if (!res.ok) throw new Error(`GitHub API ${res.status} for ${path}`);
   return (opts.raw ? await res.text() : await res.json()) as T;

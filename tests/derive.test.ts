@@ -1,4 +1,4 @@
-import { describe, expect, it } from "vitest";
+import { describe, expect, it, vi } from "vitest";
 import { profile as realProfile } from "@/data/profile";
 import type { Profile } from "@/data/profile";
 import type { GitHubData, RepoInfo } from "@/lib/github/types";
@@ -12,6 +12,7 @@ const day = 86400000;
 const ago = (d: number) => new Date(now.getTime() - d * day).toISOString();
 
 const repo = (over: Partial<RepoInfo> = {}): RepoInfo => ({
+  key: "cloudwire",
   name: "cloudwire",
   url: "https://github.com/Himanshu-370/cloudwire",
   description: "repo description",
@@ -46,6 +47,19 @@ const profile: Profile = {
 };
 
 describe("buildProjects", () => {
+  it("matches on requested key even when GitHub name differs in case", () => {
+    const d = data({ repos: [repo({ name: "CloudWire" })] });
+    const ps = buildProjects(profile, d, now);
+    expect(ps[0]).toMatchObject({ slug: "cloudwire", name: "CloudWire" });
+  });
+
+  it("warns when a showcase repo has no data", () => {
+    const warn = vi.spyOn(console, "warn").mockImplementation(() => {});
+    buildProjects(profile, data(), now);
+    expect(warn).toHaveBeenCalledWith(expect.stringContaining("ghost"));
+    warn.mockRestore();
+  });
+
   it("omits showcase repo missing from data", () => {
     const slugs = buildProjects(profile, data(), now).map((p) => p.slug);
     expect(slugs).not.toContain("ghost");

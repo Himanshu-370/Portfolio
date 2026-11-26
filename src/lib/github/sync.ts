@@ -89,6 +89,7 @@ export async function syncGitHub(
     }
 
     repos.push({
+      key: repo,
       name: info.name,
       url: info.html_url,
       description: info.description,

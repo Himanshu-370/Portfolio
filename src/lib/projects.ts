@@ -28,8 +28,11 @@ export function buildProjects(profile: Profile, data: GitHubData, now: Date): Pr
   const projects: Project[] = [];
 
   for (const showcase of profile.showcaseRepos) {
-    const repo = data.repos.find((r) => r.name === showcase.repo);
-    if (!repo) continue;
+    const repo = data.repos.find((r) => r.key === showcase.repo);
+    if (!repo) {
+      console.warn(`Showcase repo "${showcase.repo}" has no matching GitHub data, skipping`);
+      continue;
+    }
     const override = showcase.override;
     const md = override?.body ?? repo.readme;
     const active = now.getTime() - new Date(repo.pushedAt).getTime() <= 90 * DAY;

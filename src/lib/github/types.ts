@@ -7,6 +7,7 @@ export interface UpstreamPR {
 }
 
 export interface RepoInfo {
+  key: string; // requested repo name from showcaseRepos
   name: string;
   url: string;
   description: string | null;
