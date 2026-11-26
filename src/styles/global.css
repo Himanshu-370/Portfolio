@@ -11,14 +11,16 @@
   --card: #ffffff;
   --ink: #151515;
   --ink-soft: #4a4a45; /* body copy on cards; darker than --muted for AA contrast */
-  --muted: #82827c;
+  --muted: #82827c; /* decoration only (icons, rules); NOT for text: 3.6:1 */
+  --muted-text: #6b6b65; /* secondary text: 5.0:1 on bg, 5.4:1 on card */
   --line: #e6e6e1;
   --line-strong: #d6d6cf;
-  --tail: #9a9a93; /* gray second half of headlines (large text only) */
+  --tail: #85857e; /* gray second half of headlines (large text only): 3.5:1 on bg */
 
-  --merged: #1a7f37;
+  /* Level text darkened from the plan's #1a7f37 / #9a6700 to reach AA at 10px. */
+  --merged: #176f31;
   --merged-bg: #e6f4ea;
-  --open: #9a6700;
+  --open: #8a5d00;
   --open-bg: #fdf3e1;
   --release: #3451b2;
   --release-bg: #eaeefb;
@@ -47,6 +49,7 @@
     --ink: #ededea;
     --ink-soft: #c4c4bf;
     --muted: #8f8f89;
+    --muted-text: #8f8f89;
     --line: #2a2a28;
     --line-strong: #3a3a37;
     --tail: #6f6f6a;
@@ -130,7 +133,7 @@ a {
 }
 
 .muted {
-  color: var(--muted);
+  color: var(--muted-text);
 }
 
 /* Section / card label: small uppercase caption ("SERVICES · 3 RUNNING") */
@@ -140,7 +143,7 @@ a {
   font-weight: 500;
   letter-spacing: 0.09em;
   text-transform: uppercase;
-  color: var(--muted);
+  color: var(--muted-text);
 }
 
 /* Headline with gray second half: <h2 class="headline">Lead <span>tail</span></h2> */
@@ -276,7 +279,7 @@ a {
   border: 0;
   border-radius: 6px;
   background: transparent;
-  color: var(--muted);
+  color: var(--muted-text);
   cursor: pointer;
   transition:
     background-color var(--ease),
@@ -329,7 +332,7 @@ a {
 .stat-label {
   font-size: 13px;
   line-height: 1.35;
-  color: var(--muted);
+  color: var(--muted-text);
 }
 
 /* --------------------- Reduced motion --------------------- */
