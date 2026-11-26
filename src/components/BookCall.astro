@@ -10,10 +10,37 @@ const calScript = `(function (C, A, L) { let p = function (a, ar) { a.q.push(ar)
 var el = document.getElementById("cal-embed");
 var link = el && el.getAttribute("data-cal-link");
 if (link) {
-  var dark = window.matchMedia("(prefers-color-scheme: dark)").matches;
   Cal("init", { origin: "https://app.cal.com" });
-  Cal("inline", { elementOrSelector: "#cal-embed", calLink: link, layout: "month_view" });
-  Cal("ui", { theme: dark ? "dark" : "light", hideEventTypeDetails: false });
+  var current = null;
+  // Cal.com picks the frame theme from ui.color-scheme (else the OS setting) when the
+  // frame loads, so pass it explicitly and re-render on toggle instead of restyling live.
+  var render = function (theme) {
+    if (theme === current) return;
+    current = theme;
+    el.replaceChildren();
+    el.style.colorScheme = theme;
+    Cal("inline", {
+      elementOrSelector: "#cal-embed",
+      calLink: link,
+      layout: "month_view",
+      config: { layout: "month_view", theme: theme, "ui.color-scheme": theme },
+    });
+    Cal("ui", {
+      theme: theme,
+      layout: "month_view",
+      hideEventTypeDetails: false,
+      styles: { body: { background: "transparent" } },
+      cssVarsPerTheme: {
+        light: { "cal-brand": "#151515", "cal-bg": "transparent", "cal-bg-muted": "#f7f7f5" },
+        dark: { "cal-brand": "#ededea", "cal-bg": "transparent", "cal-bg-muted": "#171716" },
+      },
+    });
+  };
+  // Follows the site theme (html[data-theme], set before paint in Base.astro).
+  render(document.documentElement.dataset.theme === "dark" ? "dark" : "light");
+  window.addEventListener("themechange", function (e) {
+    render(e.detail === "dark" ? "dark" : "light");
+  });
 }`;
 ---
 
