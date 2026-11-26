@@ -122,7 +122,9 @@ On phones: single column, tiles stack, trace scrolls horizontally, nav collapses
 
 - Off-white background (`#f7f7f5`), white cards, 1px hairline borders, 10px radius,
   near-black ink, gray secondary text. Accent color only in status levels.
-- Dark mode via `prefers-color-scheme` (no toggle), same tokens inverted.
+- Dark mode follows `prefers-color-scheme` by default; a top-bar toggle pins light/dark
+  (saved in localStorage, applied before first paint). Tokens use CSS `light-dark()`.
+  *(Changed 2026-11-26 at Himanshu's request; originally no toggle.)*
 - Motion: minimal; respect `prefers-reduced-motion`.
 - Reference mockup: `.superpowers/brainstorm/*/content/full-pages-v2.html`, option B.
 
