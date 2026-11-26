@@ -6,8 +6,15 @@ const dataEl = document.getElementById("event-data");
 const list = document.querySelector<HTMLElement>("[data-events]");
 const empty = document.querySelector<HTMLElement>("[data-empty]");
 
-if (dataEl?.textContent && list && empty) {
-  const events: LogEvent[] = JSON.parse(dataEl.textContent);
+let parsed: LogEvent[] | null = null;
+try {
+  parsed = dataEl?.textContent ? (JSON.parse(dataEl.textContent) as LogEvent[]) : null;
+} catch {
+  parsed = null; // leave everything visible
+}
+
+if (parsed && list && empty) {
+  const events = parsed;
   const items = Array.from(list.querySelectorAll<HTMLElement>("li[data-index]"));
   const rangeBtns = Array.from(document.querySelectorAll<HTMLButtonElement>("[data-range]"));
   const kindBtns = Array.from(document.querySelectorAll<HTMLButtonElement>("[data-kind]"));

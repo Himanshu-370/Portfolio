@@ -41,7 +41,11 @@ const running = projects.filter((p) => p.status === "active").length;
     margin: 0;
     padding: 0;
   }
+  li + li {
+    border-top: 1px dashed var(--line);
+  }
   .svc {
+    border-bottom: 0;
     display: grid;
     grid-template-columns: auto minmax(0, 1fr) auto;
     grid-template-areas:
