@@ -1,13 +1,33 @@
 ---
+import Base from "@/layouts/Base.astro";
+import TopBar from "@/components/TopBar.astro";
+import Hero from "@/components/Hero.astro";
+import StatTiles from "@/components/StatTiles.astro";
+import { getSiteData } from "@/lib/site";
+
+const { profile, stats } = await getSiteData();
 ---
 
-<html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>himanshu-singh / prod</title>
-  </head>
-  <body>
-    <h1>himanshu-singh / prod</h1>
-  </body>
-</html>
+<Base title="Himanshu Singh — Software Engineer" description={profile.intro} path="/">
+  <TopBar slot="header" status={profile.status} />
+  <section class="wrap overview" aria-labelledby="hero-title">
+    <Hero headline={profile.headline} intro={profile.intro} resumeUrl={profile.resumeUrl} />
+    <StatTiles stats={stats} />
+  </section>
+</Base>
+
+<style>
+  .overview {
+    display: grid;
+    gap: 32px;
+    padding-block: 48px 40px;
+  }
+  @media (min-width: 900px) {
+    .overview {
+      grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr);
+      gap: 56px;
+      align-items: center;
+      padding-block: 88px 64px;
+    }
+  }
+</style>

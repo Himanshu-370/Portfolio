@@ -1,0 +1,344 @@
+@import "tailwindcss";
+
+/* ------------------------------------------------------------------
+   Design tokens. Light is the default; dark follows the OS setting.
+   Later sections reuse these vars and the component classes below.
+   ------------------------------------------------------------------ */
+:root {
+  color-scheme: light dark;
+
+  --bg: #f7f7f5;
+  --card: #ffffff;
+  --ink: #151515;
+  --ink-soft: #4a4a45; /* body copy on cards; darker than --muted for AA contrast */
+  --muted: #82827c;
+  --line: #e6e6e1;
+  --line-strong: #d6d6cf;
+  --tail: #9a9a93; /* gray second half of headlines (large text only) */
+
+  --merged: #1a7f37;
+  --merged-bg: #e6f4ea;
+  --open: #9a6700;
+  --open-bg: #fdf3e1;
+  --release: #3451b2;
+  --release-bg: #eaeefb;
+
+  --ok: #3fb950; /* status dot */
+  --idle: #c9c9c4; /* archived / inactive dot */
+
+  --btn-ink-fg: #ffffff;
+  --focus: #3451b2;
+
+  --radius: 10px;
+  --radius-sm: 6px;
+  --container: 1200px;
+  --gutter: 24px;
+
+  --font-sans: "Inter Variable", Inter, -apple-system, system-ui, "Segoe UI", sans-serif;
+  --font-mono: "JetBrains Mono Variable", "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+
+  --ease: 150ms ease;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #0f0f0e;
+    --card: #171716;
+    --ink: #ededea;
+    --ink-soft: #c4c4bf;
+    --muted: #8f8f89;
+    --line: #2a2a28;
+    --line-strong: #3a3a37;
+    --tail: #6f6f6a;
+
+    --merged: #3fb950;
+    --merged-bg: rgb(63 185 80 / 15%);
+    --open: #d29922;
+    --open-bg: rgb(210 153 34 / 15%);
+    --release: #8ea4f5;
+    --release-bg: rgb(110 140 240 / 15%);
+
+    --idle: #4a4a46;
+    --btn-ink-fg: #0f0f0e;
+    --focus: #8ea4f5;
+  }
+}
+
+@media (max-width: 599px) {
+  :root {
+    --gutter: 16px;
+  }
+}
+
+/* ---------------------------- Base ---------------------------- */
+html {
+  background: var(--bg);
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--font-sans);
+  font-size: 15px;
+  line-height: 1.55;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  overflow-x: hidden;
+}
+
+a {
+  color: inherit;
+}
+
+:focus-visible {
+  outline: 2px solid var(--focus);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+/* ------------------------- Layout ------------------------- */
+.wrap {
+  width: 100%;
+  max-width: var(--container);
+  margin-inline: auto;
+  padding-inline: var(--gutter);
+  box-sizing: border-box;
+}
+
+.skip-link {
+  position: absolute;
+  left: 12px;
+  top: -48px;
+  z-index: 100;
+  padding: 8px 12px;
+  background: var(--ink);
+  color: var(--bg);
+  border-radius: var(--radius-sm);
+  font-size: 13px;
+  text-decoration: none;
+}
+.skip-link:focus {
+  top: 12px;
+}
+
+/* --------------------- Type utilities --------------------- */
+.mono {
+  font-family: var(--font-mono);
+  font-feature-settings: "calt" 0;
+}
+
+.muted {
+  color: var(--muted);
+}
+
+/* Section / card label: small uppercase caption ("SERVICES · 3 RUNNING") */
+.label {
+  margin: 0 0 10px;
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+/* Headline with gray second half: <h2 class="headline">Lead <span>tail</span></h2> */
+.headline {
+  margin: 0;
+  font-weight: 700;
+  letter-spacing: -0.025em;
+  line-height: 1.1;
+  color: var(--ink);
+}
+.headline span {
+  color: var(--tail);
+}
+
+/* ------------------------- Surfaces ------------------------- */
+.card {
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 16px 18px;
+}
+
+/* Dashed-divider list row used by services / event log */
+.row {
+  display: flex;
+  gap: 10px;
+  align-items: baseline;
+  padding: 8px 0;
+  border-bottom: 1px dashed var(--line);
+}
+.row:last-child {
+  border-bottom: 0;
+}
+
+/* --------------------- Badges, chips, dots --------------------- */
+.lv {
+  display: inline-block;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  line-height: 1.6;
+  padding: 0 6px;
+  border-radius: 4px;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+.lv-merged {
+  color: var(--merged);
+  background: var(--merged-bg);
+}
+.lv-open {
+  color: var(--open);
+  background: var(--open-bg);
+}
+.lv-release {
+  color: var(--release);
+  background: var(--release-bg);
+}
+
+.tag {
+  display: inline-block;
+  font-size: 12px;
+  line-height: 1.5;
+  padding: 1px 9px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: var(--card);
+  color: var(--ink-soft);
+  white-space: nowrap;
+}
+
+.dot {
+  display: inline-block;
+  flex: none;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--ok);
+}
+.dot-idle {
+  background: var(--idle);
+}
+
+/* ------------------------- Buttons ------------------------- */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font: inherit;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1;
+  padding: 11px 16px;
+  border-radius: 8px;
+  border: 1px solid var(--line);
+  background: var(--card);
+  color: var(--ink);
+  text-decoration: none;
+  cursor: pointer;
+  transition:
+    border-color var(--ease),
+    background-color var(--ease),
+    opacity var(--ease);
+}
+.btn:hover {
+  border-color: var(--line-strong);
+}
+.btn-primary {
+  background: var(--ink);
+  border-color: var(--ink);
+  color: var(--btn-ink-fg);
+}
+.btn-primary:hover {
+  opacity: 0.86;
+  border-color: var(--ink);
+}
+
+/* Segmented control (range picker). aria-pressed="true" marks the active one. */
+.seg {
+  display: inline-flex;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--card);
+  padding: 2px;
+}
+.seg button {
+  font: inherit;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  line-height: 1;
+  padding: 6px 10px;
+  border: 0;
+  border-radius: 6px;
+  background: transparent;
+  color: var(--muted);
+  cursor: pointer;
+  transition:
+    background-color var(--ease),
+    color var(--ease);
+}
+.seg button:hover {
+  color: var(--ink);
+}
+.seg button[aria-pressed="true"] {
+  background: var(--bg);
+  color: var(--ink);
+  box-shadow: inset 0 0 0 1px var(--line);
+}
+
+/* Pill (status) */
+.pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  line-height: 1;
+  padding: 7px 11px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: var(--card);
+  color: var(--ink);
+  white-space: nowrap;
+}
+
+/* ------------------------- Stat tile ------------------------- */
+.stat {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 10px;
+  min-height: 108px;
+  transition: border-color var(--ease);
+}
+.stat:hover {
+  border-color: var(--line-strong);
+}
+.stat-value {
+  font-size: 30px;
+  font-weight: 650;
+  letter-spacing: -0.03em;
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+}
+.stat-label {
+  font-size: 13px;
+  line-height: 1.35;
+  color: var(--muted);
+}
+
+/* --------------------- Reduced motion --------------------- */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    transition: none !important;
+    animation: none !important;
+    scroll-behavior: auto !important;
+  }
+}
