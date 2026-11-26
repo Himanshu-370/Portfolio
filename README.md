@@ -3,75 +3,60 @@
 [![CI](https://github.com/Himanshu-370/Portfolio/actions/workflows/ci.yml/badge.svg)](https://github.com/Himanshu-370/Portfolio/actions/workflows/ci.yml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 
-Personal portfolio website with an interactive 3D hero, smooth scroll animations, and a responsive dark-themed UI.
+A light, minimal portfolio laid out like an observability dashboard: projects are "services", career is a "trace", and open-source pull requests show up as an activity feed. Project and PR data is pulled from GitHub, so the site updates itself.
 
 **Live:** [himanshusingh.dev](https://himanshusingh.dev)
 
-**Tech Stack:** Next.js 15 · React 19 · TypeScript · Tailwind CSS · React Three Fiber · Framer Motion · shadcn/ui
+## Stack
 
-## Features
+Astro (static output) · TypeScript · Tailwind CSS v4 · Vitest · deployed on Vercel.
 
-- Interactive 3D wireframe torus with floating particles (React Three Fiber)
-- Smooth scroll animations (Framer Motion)
-- Tabbed skill categories with keyboard navigation
-- Experience timeline with expandable bullet points and metric chips
-- Project showcase with GitHub/external links
-- Contact form via Formspree with inline feedback
-- Responsive mobile navigation (Sheet drawer)
-- Accessibility: skip-nav, ARIA tabs, reduced-motion support, semantic headings
-
-## Project Structure
-
-```
-app/
-  page.tsx          # Thin orchestrator — nav + section layout
-  layout.tsx        # Root layout with metadata/SEO
-  globals.css       # Tailwind + CSS variables
-components/
-  three-scene.tsx   # 3D hero (lazy-loaded, SSR-disabled)
-  sections/         # Page sections (hero, about, skills, experience, projects, contact)
-  ui/               # shadcn/ui components (badge, button, card, sheet)
-lib/
-  data.ts           # All resume content as typed constants
-  utils.ts          # cn() utility
-public/
-  Himanshu_Singh_Resume.pdf
-```
-
-## Getting Started
+## Local development
 
 ```bash
 npm install
-npm run dev
+npm run dev      # dev server at http://localhost:4321
+npm run check    # type check
+npm test         # unit tests
+npm run lint     # eslint
+npm run build    # static build into dist/
+npm run preview  # serve the built site
+npm run sync     # refresh the GitHub snapshot (see below)
 ```
 
-Open [http://localhost:3000](http://localhost:3000).
+## Editing content
 
-### Environment Variables
+Almost everything lives in `src/data/profile.ts`:
 
-Copy `.env.example` to `.env.local` and fill in your values:
+- `showcaseRepos`: the repos shown as projects. Each has a `repo` name, a `stack` list, an optional `slug`, and an optional `override` (`summary`, `cover`, `images`, `body`) that replaces what GitHub provides.
+- `manualProjects`: projects that are not on GitHub (or are archived). You write the summary and body yourself.
+- `hiddenPRs`: pull request URLs to leave out of the activity feed.
+- `calLink`: your Cal.com `username/event-slug`. While it is `null`, no booking button is shown.
+- Career, skills, socials and the intro text are in the same file.
+- For an authenticated local `npm run sync`, copy `.env.example` to `.env` and put a GitHub token there.
 
-```bash
-cp .env.example .env.local
-```
+To refresh the committed GitHub snapshot, run `npm run sync`, then commit `src/data/github-snapshot.json` through a pull request.
 
-| Variable | Description |
-|---|---|
-| `NEXT_PUBLIC_FORMSPREE_URL` | Formspree form endpoint for the contact form |
+## How data stays fresh
 
-### Scripts
+1. At build time the site fetches repos, READMEs, releases and PRs from GitHub (using `GITHUB_TOKEN` if set).
+2. If GitHub is unreachable or rate-limited, the build falls back to the committed snapshot, so it never breaks.
+3. A GitHub Actions workflow (`refresh.yml`) calls a Vercel deploy hook every 6 hours, which rebuilds the site with fresh data.
 
-| Command | Description |
-|---|---|
-| `npm run dev` | Start dev server |
-| `npm run build` | Production build |
-| `npm run start` | Serve production build |
-| `npm run lint` | Run ESLint |
-| `npm run type-check` | Run TypeScript compiler check |
+## Owner setup checklist
 
-## Deployment
-
-Deploy on [Vercel](https://vercel.com) — no additional configuration needed beyond setting the `NEXT_PUBLIC_FORMSPREE_URL` environment variable in the Vercel dashboard.
+1. **Cal.com booking**
+   - Sign up at cal.com and connect Google Calendar.
+   - Create a 30-minute event called "Intro call" with Google Meet as the location.
+   - Put the `username/event-slug` in `calLink` in `src/data/profile.ts`.
+2. **GitHub token**
+   - Create a fine-grained personal access token. Resource owner: your account. Repository access: Public repositories (read-only). Add no extra permissions.
+   - In Vercel, add it as the environment variable `GITHUB_TOKEN` for Production and Preview.
+3. **Scheduled rebuilds**
+   - In Vercel: Settings → Git → Deploy Hooks → create a hook for the `main` branch.
+   - Add the hook URL as a repository secret named `VERCEL_DEPLOY_HOOK_URL` (GitHub: Settings → Secrets and variables → Actions).
+4. **Vercel project settings**
+   - Framework, install/build commands and output directory are pinned in `vercel.json` (Astro, `dist`), so dashboard presets can't drift. Node.js comes from `engines` in `package.json`.
 
 ## License
 

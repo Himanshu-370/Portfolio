@@ -1,0 +1,113 @@
+---
+import type { Profile } from "@/data/profile";
+
+interface Props {
+  skills: Profile["skills"];
+  interests: Profile["interests"];
+  socials: Profile["socials"];
+}
+
+const { skills, interests, socials } = Astro.props;
+---
+
+<section class="wrap tiles" aria-label="Stack, interests and links">
+  <div class="card">
+    <h2 class="label">Stack</h2>
+    {
+      skills.map((g) => (
+        <div class="group">
+          <h3 class="g muted">{g.label}</h3>
+          <p class="tags">
+            {g.items.map((i) => (
+              <span class="tag">{i}</span>
+            ))}
+          </p>
+        </div>
+      ))
+    }
+  </div>
+  <div class="card">
+    <h2 class="label">Off-call</h2>
+    <ul class="plain interests">
+      {
+        interests.map((i) => (
+          <li>
+            <strong><span aria-hidden="true">{i.icon}</span> {i.label}</strong>
+            <p>{i.description}</p>
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+  <div class="card">
+    <h2 class="label">Endpoints</h2>
+    <ul class="plain">
+      {
+        socials.map((s) => (
+          <li>
+            <a href={s.url} target="_blank" rel="me noopener">
+              {s.label} ↗
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+</section>
+
+<style>
+  .tiles {
+    display: grid;
+    gap: 16px;
+    padding-bottom: 16px;
+    align-items: start;
+  }
+  @media (min-width: 900px) {
+    .tiles {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+  }
+  .group + .group {
+    margin-top: 12px;
+  }
+  .g {
+    margin: 0 0 6px;
+    font-size: 12px;
+    font-weight: 500;
+  }
+  .tags {
+    margin: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+  .tag {
+    white-space: normal;
+  }
+  .plain {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    font-size: 14px;
+  }
+  .plain li {
+    padding: 6px 0;
+  }
+  .plain li + li {
+    border-top: 1px dashed var(--line);
+  }
+  .interests li {
+    padding-block: 10px;
+  }
+  .interests p {
+    margin: 4px 0 0;
+    color: var(--ink-soft);
+    line-height: 1.5;
+  }
+  .plain a {
+    text-decoration: none;
+  }
+  .plain a:hover {
+    text-decoration: underline;
+  }
+</style>

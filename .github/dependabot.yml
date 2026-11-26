@@ -5,18 +5,6 @@ updates:
     schedule:
       interval: weekly
     open-pull-requests-limit: 10
-    groups:
-      react:
-        patterns:
-          - "react"
-          - "react-dom"
-          - "@types/react"
-          - "@types/react-dom"
-      three:
-        patterns:
-          - "three"
-          - "@react-three/*"
-          - "@types/three"
 
   - package-ecosystem: github-actions
     directory: /

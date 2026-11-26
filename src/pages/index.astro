@@ -1,0 +1,61 @@
+---
+import Base from "@/layouts/Base.astro";
+import TopBar from "@/components/TopBar.astro";
+import Hero from "@/components/Hero.astro";
+import StatTiles from "@/components/StatTiles.astro";
+import Services from "@/components/Services.astro";
+import EventLog from "@/components/EventLog.astro";
+import CareerTrace from "@/components/CareerTrace.astro";
+import BottomTiles from "@/components/BottomTiles.astro";
+import BookCall from "@/components/BookCall.astro";
+import Footer from "@/components/Footer.astro";
+import { getSiteData } from "@/lib/site";
+
+const { profile, stats, projects, events, spans, data } = await getSiteData();
+---
+
+<Base title={profile.site.title} description={profile.intro} path="/">
+  <TopBar slot="header" status={profile.status} />
+  <section class="wrap overview" aria-labelledby="hero-title">
+    <Hero headline={profile.headline} intro={profile.intro} resumeUrl={profile.resumeUrl} />
+    <StatTiles stats={stats} />
+  </section>
+  <section class="wrap panels" aria-label="Services and event log">
+    <Services projects={projects} />
+    <EventLog events={events} />
+  </section>
+  <CareerTrace career={profile.career} achievements={profile.achievements} spans={spans} />
+  <BottomTiles skills={profile.skills} interests={profile.interests} socials={profile.socials} />
+  <BookCall
+    calLink={profile.calLink}
+    linkedinUrl={profile.socials.find((s) => s.label === "LinkedIn")?.url}
+  />
+  <Footer slot="footer" syncedAt={data.syncedAt} />
+</Base>
+
+<style>
+  .panels {
+    display: grid;
+    gap: 16px;
+    padding-bottom: 16px;
+    align-items: start;
+  }
+  @media (min-width: 900px) {
+    .panels {
+      grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr);
+    }
+  }
+  .overview {
+    display: grid;
+    gap: 32px;
+    padding-block: 48px 40px;
+  }
+  @media (min-width: 900px) {
+    .overview {
+      grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr);
+      gap: 56px;
+      align-items: center;
+      padding-block: 88px 64px;
+    }
+  }
+</style>

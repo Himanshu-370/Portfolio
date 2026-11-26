@@ -1,0 +1,67 @@
+---
+interface Props {
+  status?: string;
+}
+
+const { status } = Astro.props;
+const ranges = [
+  { id: "30d", label: "30d" },
+  { id: "1y", label: "1y" },
+  { id: "all", label: "all" },
+] as const;
+---
+
+<header class="topbar">
+  <div class="wrap topbar-inner">
+    <a class="wordmark mono" href="/">himanshu-singh <span class="muted">/ prod</span></a>
+    {
+      status !== undefined && (
+    <div class="topbar-controls">
+      <div class="seg" role="group" aria-label="Time range">
+        {
+          ranges.map((r) => (
+            <button type="button" data-range={r.id} aria-pressed={r.id === "all" ? "true" : "false"}>
+              {r.label}
+            </button>
+          ))
+        }
+      </div>
+      <span class="pill">
+        <span class="dot" aria-hidden="true"></span>
+        healthy <span class="muted">·</span>
+        {status}
+      </span>
+    </div>
+      )
+    }
+  </div>
+</header>
+
+<style>
+  .topbar {
+    border-bottom: 1px solid var(--line);
+  }
+  .topbar-inner {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px 20px;
+    padding-block: 14px;
+  }
+  .wordmark {
+    font-size: 14px;
+    font-weight: 700;
+    text-decoration: none;
+    white-space: nowrap;
+  }
+  .wordmark .muted {
+    font-weight: 500;
+  }
+  .topbar-controls {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 10px;
+  }
+</style>

@@ -1,0 +1,25 @@
+---
+import { profile } from "@/data/profile";
+import { formatSyncedAt } from "@/lib/format";
+
+interface Props {
+  syncedAt: string;
+}
+
+const { syncedAt } = Astro.props;
+---
+
+<footer class="wrap foot">
+  <p class="mono muted">© {new Date().getUTCFullYear()} {profile.name} · last synced {formatSyncedAt(syncedAt)}</p>
+</footer>
+
+<style>
+  .foot {
+    padding-block: 24px 40px;
+    border-top: 1px solid var(--line);
+  }
+  p {
+    margin: 0;
+    font-size: 12px;
+  }
+</style>

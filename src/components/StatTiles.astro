@@ -1,0 +1,36 @@
+---
+import type { Stat } from "@/lib/stats";
+
+interface Props {
+  stats: Stat[];
+}
+
+const { stats } = Astro.props;
+---
+
+<dl class="stats" aria-label="Key numbers">
+  {
+    stats.map((s) => (
+      <div class="card stat">
+        <dt class="stat-label">{s.label}</dt>
+        <dd class="stat-value">{s.value}</dd>
+      </div>
+    ))
+  }
+</dl>
+
+<style>
+  .stats {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
+    margin: 0;
+  }
+  .stats dd {
+    margin: 0;
+  }
+  /* Value reads first visually; dt stays first in the DOM for screen readers. */
+  .stat {
+    flex-direction: column-reverse;
+  }
+</style>
