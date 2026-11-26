@@ -55,6 +55,19 @@ describe("renderReadme", () => {
   });
 });
 
+describe("review fixes", () => {
+  it("adds no target to links with disallowed schemes", () => {
+    const html = renderReadme("[x](javascript:alert(1))", repo);
+    expect(html).toContain("<a");
+    expect(html).not.toContain("target=");
+    expect(html).not.toContain("javascript:");
+  });
+  it("does not split srcset on commas inside a URL", () => {
+    const html = renderReadme('<picture><source srcset="a,b/c.png 1x"></picture>', repo);
+    expect(html).toContain(`srcset="${RAW}a,b/c.png 1x"`);
+  });
+});
+
 describe("resolveRepoUrl", () => {
   it("clamps ../ at repo root", () => {
     expect(resolveRepoUrl("../../x.png", "img", repo)).toBe(`${RAW}x.png`);

@@ -52,7 +52,7 @@ export function rewriteReadmeUrls(md: string, repo: RepoRef): string {
 
 function rewriteSrcset(srcset: string, repo: RepoRef): string {
   return srcset
-    .split(",")
+    .split(/,\s+/)
     .map((entry) => {
       const [url, ...descriptor] = entry.trim().split(/\s+/);
       return [resolveRepoUrl(url ?? "", "img", repo), ...descriptor].join(" ");
@@ -98,7 +98,7 @@ export function renderReadme(md: string, repo: RepoRef): string {
         delete attribs.rel;
         if (attribs.href) {
           attribs.href = resolveRepoUrl(attribs.href, "link", repo);
-          if (isAbsolute(attribs.href)) {
+          if (/^(https?:)?\/\//i.test(attribs.href)) {
             attribs.target = "_blank";
             attribs.rel = "noopener";
           }
