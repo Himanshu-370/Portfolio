@@ -3,9 +3,11 @@ import Base from "@/layouts/Base.astro";
 import TopBar from "@/components/TopBar.astro";
 import Hero from "@/components/Hero.astro";
 import StatTiles from "@/components/StatTiles.astro";
+import Services from "@/components/Services.astro";
+import EventLog from "@/components/EventLog.astro";
 import { getSiteData } from "@/lib/site";
 
-const { profile, stats } = await getSiteData();
+const { profile, stats, projects, events } = await getSiteData();
 ---
 
 <Base title="Himanshu Singh — Software Engineer" description={profile.intro} path="/">
@@ -14,9 +16,24 @@ const { profile, stats } = await getSiteData();
     <Hero headline={profile.headline} intro={profile.intro} resumeUrl={profile.resumeUrl} />
     <StatTiles stats={stats} />
   </section>
+  <section class="wrap panels" aria-label="Services and event log">
+    <Services projects={projects} />
+    <EventLog events={events} />
+  </section>
 </Base>
 
 <style>
+  .panels {
+    display: grid;
+    gap: 16px;
+    padding-bottom: 64px;
+    align-items: start;
+  }
+  @media (min-width: 900px) {
+    .panels {
+      grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr);
+    }
+  }
   .overview {
     display: grid;
     gap: 32px;

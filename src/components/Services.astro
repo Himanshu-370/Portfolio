@@ -1,0 +1,100 @@
+---
+import type { Project } from "@/lib/projects";
+
+interface Props {
+  projects: Project[];
+}
+
+const { projects } = Astro.props;
+const running = projects.filter((p) => p.status === "active").length;
+---
+
+<section class="card services" aria-labelledby="services-title">
+  <h2 class="label" id="services-title">Services (projects) · {running} running</h2>
+  <ul class="list">
+    {
+      projects.map((p) => (
+        <li>
+          <a class="row svc" href={`/projects/${p.slug}`}>
+            <span class={p.status === "active" ? "dot" : "dot dot-idle"} aria-hidden="true" />
+            <span class="name">{p.name}</span>
+            <span class="summary muted">{p.summary}</span>
+            <span class="stack">
+              {p.stack.slice(0, 3).map((s) => (
+                <span class="tag">{s}</span>
+              ))}
+            </span>
+            <span class="meta mono muted">{p.meta}</span>
+          </a>
+        </li>
+      ))
+    }
+  </ul>
+</section>
+
+<style>
+  .services {
+    min-width: 0;
+  }
+  .list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  .svc {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr) auto;
+    grid-template-areas:
+      "dot name meta"
+      ". summary summary"
+      ". stack stack";
+    column-gap: 10px;
+    row-gap: 4px;
+    align-items: center;
+    padding: 10px 6px;
+    margin-inline: -6px;
+    border-radius: var(--radius-sm);
+    text-decoration: none;
+    transition: background-color var(--ease);
+  }
+  .svc:hover {
+    background: var(--bg);
+  }
+  .svc > .dot {
+    grid-area: dot;
+  }
+  .name {
+    grid-area: name;
+    font-weight: 700;
+    min-width: 0;
+    overflow-wrap: anywhere;
+  }
+  .summary {
+    grid-area: summary;
+    font-size: 13px;
+    min-width: 0;
+  }
+  .stack {
+    grid-area: stack;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+  .meta {
+    grid-area: meta;
+    font-size: 12px;
+    white-space: nowrap;
+  }
+  @media (min-width: 600px) {
+    .svc {
+      grid-template-columns: auto minmax(90px, auto) minmax(0, 1fr) auto auto;
+      grid-template-areas: "dot name summary stack meta";
+      column-gap: 10px;
+    }
+    .summary {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+  }
+</style>
