@@ -123,6 +123,12 @@ const statusWord = p.status;
   .prose :global(> :first-child) {
     margin-top: 0;
   }
+  .prose :global(a:has(> img)) {
+    display: inline-block;
+    padding-block: 4px;
+    margin-inline-end: 8px;
+    line-height: 0;
+  }
   .prose :global(h1),
   .prose :global(h2),
   .prose :global(h3),
