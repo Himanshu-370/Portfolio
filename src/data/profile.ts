@@ -50,7 +50,7 @@ export interface Profile {
   career: CareerSpan[];
   achievements: { spanId: string; text: string }[];
   skills: { label: string; items: string[] }[];
-  interests: { label: string; icon: string }[];
+  interests: { label: string; icon: string; description: string }[];
   socials: { label: string; url: string }[];
   calLink: string | null;
   resumeUrl: string;
@@ -69,7 +69,7 @@ export const profile: Profile = {
     tail: "keeping infra observable & agents honest.",
   },
   intro:
-    "Software Engineer at Guidewire in Bengaluru. I build internal platforms, infrastructure visibility tools and AI-agent tooling, and send fixes upstream.",
+    "Software Engineer II at Guidewire in Bengaluru. I build internal platforms, infrastructure visibility tools and AI-agent tooling, and send fixes upstream.",
   careerStart: "2024-01",
   manualStats: [{ label: "engineers using my dashboards", value: "50+" }],
   career: [
@@ -118,7 +118,7 @@ export const profile: Profile = {
     {
       id: "guidewire",
       label: "Guidewire",
-      role: "Software Engineer I",
+      role: "Software Engineer II",
       org: "Guidewire Software",
       start: "2024-01",
       end: null,
@@ -159,10 +159,10 @@ export const profile: Profile = {
     },
   ],
   interests: [
-    { label: "cooking", icon: "🍳" },
-    { label: "football", icon: "⚽" },
-    { label: "cricket", icon: "🏏" },
-    { label: "swimming", icon: "🏊" },
+    { label: "Cooking", icon: "🍳", description: "Trying a new recipe is as much fun as getting an old one right." },
+    { label: "Football", icon: "⚽", description: "A good reminder of how much can happen in 90 minutes." },
+    { label: "Cricket", icon: "🏏", description: "I like how one over can change the whole game." },
+    { label: "Swimming", icon: "🏊", description: "A few laps and a little time away from screens." },
   ],
   socials: [
     { label: "GitHub", url: "https://github.com/Himanshu-370" },

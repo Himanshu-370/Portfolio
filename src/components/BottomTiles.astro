@@ -28,11 +28,12 @@ const { skills, interests, socials } = Astro.props;
   </div>
   <div class="card">
     <h2 class="label">Off-call</h2>
-    <ul class="plain">
+    <ul class="plain interests">
       {
         interests.map((i) => (
           <li>
-            <span aria-hidden="true">{i.icon}</span> {i.label}
+            <strong><span aria-hidden="true">{i.icon}</span> {i.label}</strong>
+            <p>{i.description}</p>
           </li>
         ))
       }
@@ -91,10 +92,17 @@ const { skills, interests, socials } = Astro.props;
   }
   .plain li {
     padding: 6px 0;
-    text-transform: capitalize;
   }
   .plain li + li {
     border-top: 1px dashed var(--line);
+  }
+  .interests li {
+    padding-block: 10px;
+  }
+  .interests p {
+    margin: 4px 0 0;
+    color: var(--ink-soft);
+    line-height: 1.5;
   }
   .plain a {
     text-decoration: none;
