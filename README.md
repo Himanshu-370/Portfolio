@@ -56,7 +56,7 @@ To refresh the committed GitHub snapshot, run `npm run sync`, then commit `src/d
    - In Vercel: Settings → Git → Deploy Hooks → create a hook for the `main` branch.
    - Add the hook URL as a repository secret named `VERCEL_DEPLOY_HOOK_URL` (GitHub: Settings → Secrets and variables → Actions).
 4. **Vercel project settings**
-   - Settings → Build & Deployment: Framework Preset = Astro, Output Directory = `dist`, Node.js version = 24.
+   - Framework, install/build commands and output directory are pinned in `vercel.json` (Astro, `dist`), so dashboard presets can't drift. Node.js comes from `engines` in `package.json`.
 
 ## License
 
