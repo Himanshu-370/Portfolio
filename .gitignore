@@ -28,3 +28,4 @@ yarn.lock
 # resume source (canonical copy is in public/)
 /Himanshu_Singh_Resume_New.pdf
 .superpowers/
+.vercel
