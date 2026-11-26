@@ -8,10 +8,11 @@ interface Props {
   title: string;
   description: string;
   path: string;
+  noindex?: boolean;
 }
 
-const { title, description, path } = Astro.props;
-const site = "https://himanshusingh.dev";
+const { title, description, path, noindex = false } = Astro.props;
+const site = Astro.site ?? new URL("https://himanshusingh.dev");
 const canonical = new URL(path, site).href;
 const ogImage = new URL("/og.png", site).href;
 ---
@@ -23,6 +24,7 @@ const ogImage = new URL("/og.png", site).href;
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{title}</title>
     <meta name="description" content={description} />
+    {noindex && <meta name="robots" content="noindex" />}
     <link rel="canonical" href={canonical} />
     <meta name="theme-color" content="#f7f7f5" media="(prefers-color-scheme: light)" />
     <meta name="theme-color" content="#0f0f0e" media="(prefers-color-scheme: dark)" />

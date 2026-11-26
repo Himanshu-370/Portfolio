@@ -1,5 +1,6 @@
 import type { Profile } from "@/data/profile";
 import type { GitHubData } from "@/lib/github/types";
+import { formatMonth } from "@/lib/format";
 import { renderReadme } from "@/lib/readme";
 
 export type ProjectStatus = "active" | "idle" | "archived";
@@ -37,7 +38,7 @@ export function buildProjects(profile: Profile, data: GitHubData, now: Date): Pr
       name: repo.name,
       summary: override?.summary ?? repo.description ?? "",
       stack: showcase.stack,
-      meta: `★${repo.stars}`,
+      meta: repo.stars > 0 ? `★${repo.stars}` : `updated ${formatMonth(repo.pushedAt.slice(0, 7))}`,
       status: active ? "active" : "idle",
       githubUrl: repo.url,
       stars: repo.stars,

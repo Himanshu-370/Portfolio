@@ -77,6 +77,11 @@ const running = projects.filter((p) => p.status === "active").length;
     grid-area: summary;
     font-size: 13px;
     min-width: 0;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    line-clamp: 2;
+    overflow: hidden;
   }
   .stack {
     grid-area: stack;
@@ -88,17 +93,5 @@ const running = projects.filter((p) => p.status === "active").length;
     grid-area: meta;
     font-size: 12px;
     white-space: nowrap;
-  }
-  @media (min-width: 600px) {
-    .svc {
-      grid-template-columns: auto minmax(90px, auto) minmax(0, 1fr) auto auto;
-      grid-template-areas: "dot name summary stack meta";
-      column-gap: 10px;
-    }
-    .summary {
-      overflow: hidden;
-      text-overflow: ellipsis;
-      white-space: nowrap;
-    }
   }
 </style>

@@ -99,6 +99,13 @@ describe("buildProjects", () => {
   });
 });
 
+describe("project meta", () => {
+  it("shows updated month when stars are zero", () => {
+    const d = data({ repos: [repo({ stars: 0, pushedAt: "2026-11-16T00:00:00Z" })] });
+    expect(buildProjects(profile, d, now)[0]!.meta).toBe("updated Nov 2026");
+  });
+});
+
 describe("events", () => {
   const d = data({
     prs: [

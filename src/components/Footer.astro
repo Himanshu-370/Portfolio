@@ -1,4 +1,5 @@
 ---
+import { profile } from "@/data/profile";
 import { formatSyncedAt } from "@/lib/format";
 
 interface Props {
@@ -9,7 +10,7 @@ const { syncedAt } = Astro.props;
 ---
 
 <footer class="wrap foot">
-  <p class="mono muted">© {new Date().getUTCFullYear()} Himanshu Singh · last synced {formatSyncedAt(syncedAt)}</p>
+  <p class="mono muted">© {new Date().getUTCFullYear()} {profile.name} · last synced {formatSyncedAt(syncedAt)}</p>
 </footer>
 
 <style>
