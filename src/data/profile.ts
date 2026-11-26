@@ -43,7 +43,8 @@ export interface Profile {
   site: { title: string; twitterHandle: string };
   githubUser: string;
   status: string;
-  headline: { lead: string; tail: string };
+  /** tail is the static/first phrase; rotating phrases are retyped after it in the hero. */
+  headline: { lead: string; tail: string; rotating: string[] };
   intro: string;
   careerStart: YearMonth;
   manualStats: { label: string; value: string }[];
@@ -67,6 +68,12 @@ export const profile: Profile = {
   headline: {
     lead: "Software engineer",
     tail: "keeping infra observable & agents honest.",
+    rotating: [
+      "building AI agents that ship to production.",
+      "turning plain questions into SQL with LLMs.",
+      "sending fixes upstream to etcd & KubeVela.",
+      "making AWS dependencies visible.",
+    ],
   },
   intro:
     "Software Engineer II at Guidewire in Bengaluru. I build internal platforms, infrastructure visibility tools and AI-agent tooling, and send fixes upstream.",
