@@ -73,6 +73,16 @@ describe("buildProjects", () => {
     expect(buildProjects(profile, d, now)[0]!.bodyHtml).toBe("");
   });
 
+  it("override body wins over README", () => {
+    const p = {
+      ...profile,
+      showcaseRepos: [{ repo: "cloudwire", stack: [], override: { body: "# Override Title" } }],
+    };
+    const html = buildProjects(p, data(), now)[0]!.bodyHtml;
+    expect(html).toContain("Override Title");
+    expect(html).not.toContain("Hello");
+  });
+
   it("status active when pushed 10 days ago, idle when 200 days ago", () => {
     expect(buildProjects(profile, data(), now)[0]!.status).toBe("active");
     const d = data({ repos: [repo({ pushedAt: ago(200) })] });
@@ -123,6 +133,15 @@ describe("events", () => {
     expect(out.map((x) => x.level)).toEqual(["MERGED"]);
   });
 
+  it("filterEvents applies range and kind together", () => {
+    const e = [
+      { date: ago(40), level: "MERGED" as const, repo: "a/b", title: "old merged", url: "1" },
+      { date: ago(5), level: "OPEN" as const, repo: "a/b", title: "recent open", url: "2" },
+      { date: ago(5), level: "MERGED" as const, repo: "a/b", title: "recent merged", url: "3" },
+    ];
+    expect(filterEvents(e, "30d", "MERGED", now).map((x) => x.url)).toEqual(["3"]);
+  });
+
   it("filterEvents on [] returns []", () => {
     expect(filterEvents([], "30d", "all", now)).toEqual([]);
   });
@@ -160,6 +179,17 @@ describe("spanGeometry", () => {
       expect(b.leftPct).toBeGreaterThanOrEqual(0);
       expect(b.leftPct + b.widthPct).toBeLessThanOrEqual(100 + 1e-9);
     }
+  });
+  it("clamps a span ending in the current month to now", () => {
+    const spans = [
+      { ...realProfile.career[0]!, id: "a", start: "2024-01" as const, end: "2024-02" as const },
+      { ...realProfile.career[0]!, id: "b", start: "2025-01" as const, end: "2026-11" as const },
+    ];
+    const b = spanGeometry(spans, now).find((x) => x.id === "b")!;
+    expect(b.leftPct + b.widthPct).toBeCloseTo(100, 5);
+    const t0 = Date.UTC(2024, 0, 1);
+    const expectedLeft = ((Date.UTC(2025, 0, 1) - t0) / (now.getTime() - t0)) * 100;
+    expect(b.leftPct).toBeCloseTo(expectedLeft, 5);
   });
   it("empty spans give empty result", () => {
     expect(spanGeometry([], now)).toEqual([]);

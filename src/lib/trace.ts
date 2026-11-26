@@ -24,7 +24,7 @@ export function spanGeometry(spans: CareerSpan[], now: Date): SpanBox[] {
   const total = Math.max(now.getTime() - t0, 1);
   return spans.map((s) => {
     const from = startMs(s.start);
-    const to = s.end === null ? now.getTime() : endMs(s.end);
+    const to = s.end === null ? now.getTime() : Math.min(endMs(s.end), now.getTime());
     const widthPct = Math.min(100, Math.max(MIN_WIDTH, ((to - from) / total) * 100));
     const leftPct = Math.max(0, Math.min(((from - t0) / total) * 100, 100 - widthPct));
     return { id: s.id, leftPct, widthPct };
