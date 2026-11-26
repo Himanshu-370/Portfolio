@@ -103,6 +103,21 @@ describe("syncGitHub", () => {
   });
 });
 
+describe("syncGitHub search", () => {
+  it("search excludes own repos", async () => {
+    const urls: string[] = [];
+    const fetchImpl = vi.fn(async (input: RequestInfo | URL) => {
+      urls.push(decodeURIComponent(String(input)));
+      return json({ items: [] }, String(input).includes("/search/") ? 200 : 404);
+    }) as unknown as typeof fetch;
+    vi.spyOn(console, "warn").mockImplementation(() => {});
+    await syncGitHub({ fetchImpl });
+    const search = urls.find((u) => u.includes("/search/issues"))!;
+    expect(search).toContain("author:Himanshu-370");
+    expect(search).toContain("-user:Himanshu-370");
+  });
+});
+
 describe("ghFetch", () => {
   it("sends Authorization only when GITHUB_TOKEN set", async () => {
     const seen: Record<string, string>[] = [];
@@ -137,6 +152,18 @@ describe("loadGitHubData", () => {
     expect(out).toBe(snapshot);
     expect(warn).toHaveBeenCalledTimes(1);
     expect(warn.mock.calls[0][0]).toContain("GitHub sync failed, using snapshot");
+  });
+
+  it("real fallback path", async () => {
+    const warn = vi.fn();
+    const fetchImpl = stub(() => json({ message: "rate limited" }, 403));
+    const out = await loadGitHubData({
+      sync: () => syncGitHub({ fetchImpl }),
+      snapshot,
+      warn,
+    });
+    expect(out).toBe(snapshot);
+    expect(warn).toHaveBeenCalledTimes(1);
   });
 
   it("returns live data when sync succeeds", async () => {

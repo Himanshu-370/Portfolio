@@ -50,6 +50,7 @@ export async function syncGitHub(
   const user = profile.githubUser;
 
   const q = encodeURIComponent(`is:pr author:${user} -user:${user}`);
+  // Fetches a single page of 100 results (enough for current PR volume).
   const search = await ghFetch<{ items: RawSearchPR[] }>(
     `/search/issues?q=${q}&per_page=100&sort=created&order=desc`,
     { fetchImpl },
