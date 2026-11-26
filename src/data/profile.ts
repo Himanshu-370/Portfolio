@@ -109,6 +109,7 @@ export const profile: Profile = {
       kind: "oss",
       metrics: ["Rust", "Open Source"],
       bullets: [
+        "Production-grade open-source payment orchestrator.",
         "Improved backend request routing in a production-grade open-source payment orchestrator (Rust); collaborated with core maintainers to implement a new identifier structure, increasing connector compatibility across payment providers.",
       ],
     },
@@ -123,6 +124,7 @@ export const profile: Profile = {
       kind: "work",
       metrics: ["50+ engineers served", "60% effort reduction", ">80% test coverage"],
       bullets: [
+        "Intern Jan–May 2024; full-time since Jun 2024.",
         "Built React dashboards for infrastructure usage monitoring, serving 50+ internal engineers with real-time visibility into AWS resource allocation and cost metrics.",
         "Developed secure service APIs with role-based access control and audit logging, reducing unauthorized access incidents across staging and production environments.",
         "Automated weekly operational reporting using Python, MySQL, and Slack APIs, cutting manual tracking effort by 60% and eliminating reporting delays for stakeholder teams.",
