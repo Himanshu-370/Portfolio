@@ -169,7 +169,7 @@ export const profile: Profile = {
     { label: "LinkedIn", url: "https://www.linkedin.com/in/himanshusingh20/" },
     { label: "X", url: "https://x.com/himlabs" },
   ],
-  calLink: null,
+  calLink: "himlabs/intro",
   resumeUrl: "/Himanshu_Singh_Resume.pdf",
   showcaseRepos: [
     { repo: "son-of-anton", stack: ["TypeScript", "Docker", "Agents"] },
@@ -202,5 +202,13 @@ export const profile: Profile = {
       body: "- Multi-stranger video chat application using WebRTC and Socket.IO for real-time communication with dynamic room allocation.\n- Optimized user interface for enhanced user retention and built a scalable signaling server.",
     },
   ],
-  hiddenPRs: [],
+  hiddenPRs: [
+    "https://github.com/acmsnu/2022/pull/8",
+    "https://github.com/shreya024/MemoriesApp/pull/14",
+    "https://github.com/shreya024/MemoriesApp/pull/15",
+    "https://github.com/shreya024/MemoriesApp/pull/16",
+    "https://github.com/shreya024/MemoriesApp/pull/24",
+    "https://github.com/firstcontributions/first-contributions/pull/51482",
+    "https://github.com/firstcontributions/first-contributions/pull/51483",
+  ],
 };
