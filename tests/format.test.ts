@@ -13,6 +13,7 @@ describe("formatSyncedAt", () => {
 describe("formatPeriod", () => {
   it("formats months and Present", () => {
     expect(formatMonth("2024-01")).toBe("Jan 2024");
+    expect(formatMonth("2024-09")).toBe("Sep 2024");
     expect(formatPeriod("2024-01", null)).toBe("Jan 2024 – Present");
     expect(formatPeriod("2022-10", "2023-10")).toBe("Oct 2022 – Oct 2023");
   });

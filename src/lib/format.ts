@@ -16,12 +16,12 @@ export function formatSyncedAt(iso: string): string {
   return `${p.day} ${p.month} ${p.year}, ${hour}:${p.minute} UTC`;
 }
 
-const monthFmt = new Intl.DateTimeFormat("en-GB", { timeZone: "UTC", month: "short", year: "numeric" });
+const MONTHS = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
 
 /** "2024-01" -> "Jan 2024" */
 export function formatMonth(ym: string): string {
   const [y, m] = ym.split("-").map(Number) as [number, number];
-  return monthFmt.format(new Date(Date.UTC(y, m - 1, 1))).replace(/^(\w+)\s/, "$1 ");
+  return `${MONTHS[m - 1]} ${y}`;
 }
 
 export function formatPeriod(start: string, end: string | null): string {
