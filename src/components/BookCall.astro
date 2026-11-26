@@ -1,0 +1,61 @@
+---
+interface Props {
+  calLink: string | null;
+  linkedinUrl: string | undefined;
+}
+
+const { calLink, linkedinUrl } = Astro.props;
+
+const calScript = `(function (C, A, L) { let p = function (a, ar) { a.q.push(ar); }; let d = C.document; C.Cal = C.Cal || function () { let cal = C.Cal; let ar = arguments; if (!cal.loaded) { cal.ns = {}; cal.q = cal.q || []; d.head.appendChild(d.createElement("script")).src = A; cal.loaded = true; } if (ar[0] === L) { const api = function () { p(api, arguments); }; const namespace = ar[1]; api.q = api.q || []; if (typeof namespace === "string") { cal.ns[namespace] = cal.ns[namespace] || api; p(cal.ns[namespace], ar); p(cal, ["initNamespace", namespace]); } else p(cal, ar); return; } p(cal, ar); }; })(window, "https://app.cal.com/embed/embed.js", "init");
+var el = document.getElementById("cal-embed");
+var link = el && el.getAttribute("data-cal-link");
+if (link) {
+  var dark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+  Cal("init", { origin: "https://app.cal.com" });
+  Cal("inline", { elementOrSelector: "#cal-embed", calLink: link, layout: "month_view" });
+  Cal("ui", { theme: dark ? "dark" : "light", hideEventTypeDetails: false });
+}`;
+---
+
+<section class="wrap book" id="book" aria-labelledby="book-title">
+  <div class="card">
+    <h2 class="label" id="book-title">Book a call</h2>
+    <p class="line">30-minute intro over Google Meet.</p>
+    {
+      calLink ? (
+        <div id="cal-embed" class="embed" data-cal-link={calLink} />
+      ) : (
+        <div class="fallback">
+          <p class="muted">Booking opens soon</p>
+          {linkedinUrl && (
+            <a class="btn" href={linkedinUrl} target="_blank" rel="me noopener">
+              Message me on LinkedIn ↗
+            </a>
+          )}
+        </div>
+      )
+    }
+  </div>
+</section>
+
+{calLink && <script is:inline set:html={calScript} />}
+
+<style>
+  .book {
+    padding-bottom: 48px;
+  }
+  .line {
+    margin: 0 0 14px;
+    font-size: 14px;
+    color: var(--ink-soft);
+  }
+  .fallback p {
+    margin: 0 0 12px;
+    font-size: 14px;
+  }
+  .embed {
+    min-height: 480px;
+    width: 100%;
+    overflow: auto;
+  }
+</style>

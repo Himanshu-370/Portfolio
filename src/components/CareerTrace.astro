@@ -1,0 +1,195 @@
+---
+import type { Profile } from "@/data/profile";
+import type { SpanBox } from "@/lib/trace";
+import { formatPeriod } from "@/lib/format";
+
+interface Props {
+  career: Profile["career"];
+  achievements: Profile["achievements"];
+  spans: SpanBox[];
+}
+
+const { career, achievements, spans } = Astro.props;
+const box = new Map(spans.map((s) => [s.id, s]));
+const items = career.map((c) => ({
+  id: c.id,
+  role: c.role,
+  org: c.org,
+  period: formatPeriod(c.start, c.end),
+  location: c.location,
+  metrics: c.metrics,
+  bullets: c.bullets,
+  achievements: achievements.filter((a) => a.spanId === c.id).map((a) => a.text),
+}));
+const rows = [...career].reverse(); // most recent first
+const active = items.find((i) => i.id === "guidewire") ?? items[items.length - 1];
+---
+
+<section class="wrap trace" aria-labelledby="trace-title">
+  <div class="card">
+    <h2 class="label" id="trace-title">Trace · career</h2>
+    <div class="scroll">
+      <ul class="rows">
+        {
+          rows.map((c) => {
+            const b = box.get(c.id);
+            return (
+              <li class="tr">
+                <span class="org">{c.org}</span>
+                <span class="lane">
+                  {b && (
+                    <button
+                      type="button"
+                      class={`bar ${c.kind === "education" ? "edu" : "work"}`}
+                      data-span={c.id}
+                      aria-controls="trace-detail"
+                      aria-pressed={c.id === active?.id ? "true" : "false"}
+                      aria-label={`${c.role}, ${c.org}, ${formatPeriod(c.start, c.end)}`}
+                      style={`left:${b.leftPct}%;width:${b.widthPct}%`}
+                    />
+                  )}
+                </span>
+              </li>
+            );
+          })
+        }
+      </ul>
+    </div>
+    <div class="detail" id="trace-detail" aria-live="polite">
+      {
+        active && (
+          <>
+            <h3 class="role">{active.role}</h3>
+            <p class="meta muted">
+              {active.org} · {active.period} · {active.location}
+            </p>
+            {active.metrics.length > 0 && (
+              <p class="metrics">
+                {active.metrics.map((m) => (
+                  <>
+                    <span class="tag">{m}</span>{" "}
+                  </>
+                ))}
+              </p>
+            )}
+            {active.bullets.length > 0 && (
+              <ul class="bullets">
+                {active.bullets.map((b) => (
+                  <li>{b}</li>
+                ))}
+              </ul>
+            )}
+            {active.achievements.length > 0 && (
+              <>
+                <h4 class="label">Achievements</h4>
+                <ul class="bullets">
+                  {active.achievements.map((a) => (
+                    <li>{a}</li>
+                  ))}
+                </ul>
+              </>
+            )}
+          </>
+        )
+      }
+    </div>
+    <script id="trace-data" type="application/json" set:html={JSON.stringify(items).replace(/</g, "\\u003c")} />
+  </div>
+</section>
+
+<script>
+  import "@/scripts/trace";
+</script>
+
+<style>
+  .trace {
+    padding-bottom: 16px;
+  }
+  .scroll {
+    overflow-x: auto;
+  }
+  .rows {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    min-width: 640px;
+  }
+  .tr {
+    display: grid;
+    grid-template-columns: 130px minmax(0, 1fr);
+    align-items: center;
+    gap: 12px;
+    padding: 6px 0;
+    border-bottom: 1px dashed var(--line);
+  }
+  .tr:last-child {
+    border-bottom: 0;
+  }
+  .org {
+    font-size: 13px;
+    color: var(--ink-soft);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  .lane {
+    position: relative;
+    height: 24px;
+  }
+  .bar {
+    position: absolute;
+    top: 3px;
+    height: 18px;
+    padding: 0;
+    border: 0;
+    border-radius: 4px;
+    background: var(--ink);
+    opacity: 0.88;
+    cursor: pointer;
+    transition: opacity var(--ease);
+  }
+  .bar.edu {
+    background: var(--line-strong);
+    opacity: 1;
+  }
+  .bar:hover {
+    opacity: 1;
+  }
+  .bar[aria-pressed="true"] {
+    opacity: 1;
+    outline: 2px solid var(--focus);
+    outline-offset: 2px;
+  }
+  .detail {
+    margin-top: 14px;
+    padding-top: 14px;
+    border-top: 1px solid var(--line);
+  }
+  .detail :global(.role) {
+    margin: 0;
+    font-size: 16px;
+    font-weight: 600;
+  }
+  .detail :global(.meta) {
+    margin: 2px 0 10px;
+    font-size: 13px;
+  }
+  .detail :global(.metrics) {
+    margin: 0 0 10px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+  .detail :global(.bullets) {
+    margin: 0 0 10px;
+    padding-left: 18px;
+    font-size: 14px;
+    color: var(--ink-soft);
+  }
+  .detail :global(.bullets li) {
+    margin-bottom: 4px;
+  }
+  .detail :global(h4.label) {
+    margin-top: 12px;
+  }
+</style>

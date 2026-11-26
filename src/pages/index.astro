@@ -5,9 +5,13 @@ import Hero from "@/components/Hero.astro";
 import StatTiles from "@/components/StatTiles.astro";
 import Services from "@/components/Services.astro";
 import EventLog from "@/components/EventLog.astro";
+import CareerTrace from "@/components/CareerTrace.astro";
+import BottomTiles from "@/components/BottomTiles.astro";
+import BookCall from "@/components/BookCall.astro";
+import Footer from "@/components/Footer.astro";
 import { getSiteData } from "@/lib/site";
 
-const { profile, stats, projects, events } = await getSiteData();
+const { profile, stats, projects, events, spans, data } = await getSiteData();
 ---
 
 <Base title="Himanshu Singh — Software Engineer" description={profile.intro} path="/">
@@ -20,13 +24,20 @@ const { profile, stats, projects, events } = await getSiteData();
     <Services projects={projects} />
     <EventLog events={events} />
   </section>
+  <CareerTrace career={profile.career} achievements={profile.achievements} spans={spans} />
+  <BottomTiles skills={profile.skills} interests={profile.interests} socials={profile.socials} />
+  <BookCall
+    calLink={profile.calLink}
+    linkedinUrl={profile.socials.find((s) => s.label === "LinkedIn")?.url}
+  />
+  <Footer slot="footer" syncedAt={data.syncedAt} />
 </Base>
 
 <style>
   .panels {
     display: grid;
     gap: 16px;
-    padding-bottom: 64px;
+    padding-bottom: 16px;
     align-items: start;
   }
   @media (min-width: 900px) {
