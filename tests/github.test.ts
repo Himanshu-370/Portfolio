@@ -84,7 +84,7 @@ describe("syncGitHub", () => {
     });
     const data = await syncGitHub({ fetchImpl });
     expect(data.repos.map((r) => r.name)).toEqual(["son-of-anton"]);
-    expect(data.repos[0]!.key).toBe("son-of-anton");
+    expect(data.repos[0].key).toBe("son-of-anton");
     expect(data.repos[0].homepage).toBeNull();
     expect(console.warn).toHaveBeenCalled();
   });
