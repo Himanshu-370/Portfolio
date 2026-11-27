@@ -180,6 +180,7 @@ export const profile: Profile = {
   resumeUrl: "/Himanshu_Singh_Resume.pdf",
   showcaseRepos: [
     { repo: "son-of-anton", stack: ["TypeScript", "Docker", "Agents"] },
+    { repo: "localMind", slug: "localmind", stack: ["Python", "Ollama", "GraphRAG"] },
     {
       repo: "cloudwire",
       stack: ["Python", "FastAPI", "React"],

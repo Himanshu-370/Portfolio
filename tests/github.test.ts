@@ -1,4 +1,5 @@
 import { afterEach, describe, expect, it, vi } from "vitest";
+import { profile } from "@/data/profile";
 import { ghFetch, GitHubNotFound } from "@/lib/github/client";
 import { normalizePRs, syncGitHub } from "@/lib/github/sync";
 import { loadGitHubData } from "@/lib/github/load";
@@ -98,7 +99,7 @@ describe("syncGitHub", () => {
       return json({}, 404);
     });
     const data = await syncGitHub({ fetchImpl, now: new Date("2026-11-26T00:00:00Z") });
-    expect(data.repos.length).toBe(2);
+    expect(data.repos.map((r) => r.key)).toEqual(profile.showcaseRepos.map((r) => r.repo));
     expect(data.repos.every((r) => r.readme === null)).toBe(true);
     expect(data.syncedAt).toBe("2026-11-26T00:00:00.000Z");
   });
