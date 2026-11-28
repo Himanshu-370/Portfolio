@@ -1,0 +1,55 @@
+---
+const photos = [
+  [8, "Group around a meeting table"],
+  [14, "Holding a Pitch Your Pod award"],
+  [7, "Team selfie at a booth"],
+  [15, "Speaking at Guidewire Surge"],
+  [3, "Group with helmets"],
+  [2, "Mountain portrait"],
+  [6, "Group gathered at an event"],
+  [12, "Mirror selfie"],
+  [11, "Outdoor group selfie"],
+  [5, "Hiking beside a stream"],
+  [9, "Evening group selfie"],
+  [16, "Guidewire superhero figurine"],
+  [4, "Group at a mountain campsite"],
+  [1, "Green hoodie outside a shop"],
+  [10, "Friends cheering for a selfie"],
+  [13, "Portrait at Guidewire Voice"],
+] as const;
+---
+
+<section class="wrap moments" id="moments" aria-labelledby="moments-title">
+  <h2 class="label" id="moments-title">Off-call · Photos</h2>
+  <div class="moment-window" tabindex="0" role="group" aria-label="Photo carousel">
+    <div class="moment-track">
+      {[false, true].map((copy) => (
+        <div class="moment-row" aria-hidden={copy ? "true" : undefined}>
+          {photos.map(([id, alt]) => (
+            <figure class="moment">
+              <img src={`/moments/${id}.webp`} alt={copy ? "" : alt} decoding="async" />
+            </figure>
+          ))}
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+.moments{padding-block:12px 28px}
+.moment-window{overflow:hidden}
+.moment-track{display:flex;width:max-content;animation:moment-slide 72s linear infinite}
+.moment-row{display:flex;align-items:flex-start;position:relative;padding-bottom:16px}
+.moment-row::before{content:"";position:absolute;inset:20px 0 auto;border-top:2px solid var(--muted)}
+@keyframes moment-slide{to{transform:translateX(-50%)}}
+@media(prefers-reduced-motion:reduce){
+  .moment-row[aria-hidden]{display:none}
+  .moment-window{overflow-x:auto}
+  .moment-track{animation:none}
+}
+.moment{position:relative;flex:0 0 clamp(138px,17vw,208px);margin:0;padding:28px 10px 12px}
+.moment::after{content:"";position:absolute;left:calc(50% - 4px);top:16px;width:8px;height:20px;border-radius:2px;background:light-dark(#9d7650,#be976c);box-shadow:0 1px 4px #0005;transform:rotate(-7deg)}
+.moment img{display:block;width:100%;height:118px;object-fit:contain;background:var(--card);padding:4px 4px 9px;border:1px solid var(--line-strong);border-radius:3px;box-shadow:0 4px 10px #0003;transform:rotate(-5deg);transform-origin:50% 0}
+.moment:nth-child(even) img{transform:rotate(5deg)}
+</style>
