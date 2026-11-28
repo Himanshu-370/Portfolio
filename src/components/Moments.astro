@@ -41,7 +41,7 @@ const photos = [
 <style>
 .moments{padding-block:12px 28px}
 .moment-window{overflow:hidden}
-.moment-track{display:flex;width:max-content;animation:moment-slide 72s linear infinite}
+.moment-track{display:flex;width:max-content;animation:moment-slide 118s linear infinite}
 .moment-row{display:flex;align-items:flex-start;position:relative;padding-bottom:16px}
 .moment-row::before{content:"";position:absolute;inset:20px 0 auto;border-top:2px solid var(--muted)}
 @keyframes moment-slide{to{transform:translateX(-50%)}}
@@ -50,7 +50,7 @@ const photos = [
   .moment-window{overflow-x:auto}
   .moment-track{animation:none}
 }
-.moment{position:relative;flex:0 0 clamp(138px,17vw,208px);margin:0;padding:28px 10px 12px}
+.moment{position:relative;flex:0 0 clamp(224px,26vw,340px);margin:0;padding:28px 10px 12px}
 .moment::after{content:"";position:absolute;left:calc(50% - 4px);top:16px;width:8px;height:20px;border-radius:2px;background:light-dark(#9d7650,#be976c);box-shadow:0 1px 4px #0005;transform:rotate(-7deg)}
-.moment img{display:block;width:100%;height:118px;object-fit:contain;background:var(--card);padding:4px 4px 9px;border:1px solid var(--line-strong);border-radius:3px;box-shadow:0 4px 10px #0003}
+.moment img{display:block;width:100%;height:clamp(180px,18vw,240px);object-fit:contain;background:var(--card);padding:4px 4px 9px;border:1px solid var(--line-strong);border-radius:3px;box-shadow:0 4px 10px #0003}
 </style>
