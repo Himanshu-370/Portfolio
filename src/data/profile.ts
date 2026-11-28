@@ -148,7 +148,7 @@ export const profile: Profile = {
         "Maintained >80% unit test coverage through rigorous testing practices, code reviews, and CI enforcement.",
       ],
       summary:
-        "I worked on an enterprise knowledge assistant that retrieves information from structured and unstructured sources and turns natural-language questions into SQL. My work covered the quality of the knowledge it relied on, how the agent used that knowledge, and how engineers could troubleshoot it.",
+        "I joined Guidewire as an intern in 2024 and now work as a Software Engineer II. I’ve worked on cloud data services, including how they provision resources, handle lifecycle events, and recover across regions. I’ve also worked on an enterprise AI assistant, building checks for the knowledge it uses and improving how it generates SQL and how engineers troubleshoot it.",
       roles: [
         {
           title: "Software Engineer II",
