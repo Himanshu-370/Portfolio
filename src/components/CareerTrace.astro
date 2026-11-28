@@ -19,6 +19,12 @@ const items = career.map((c) => ({
   location: c.location,
   metrics: c.metrics,
   bullets: c.bullets,
+  summary: c.summary,
+  roles: c.roles?.map(({ title, start, end, writeups }) => ({
+    title,
+    period: formatPeriod(start, end),
+    writeups,
+  })),
   achievements: achievements.filter((a) => a.spanId === c.id).map((a) => a.text),
 }));
 const rows = [...career].reverse(); // most recent first
@@ -72,6 +78,22 @@ const active = items.find((i) => i.id === "guidewire") ?? items[items.length - 1
                 ))}
               </p>
             )}
+            {active.summary && <p class="writeup-copy">{active.summary}</p>}
+            {active.roles?.map((role) => (
+              <>
+                <h4 class="label">{role.title}</h4>
+                <p class="meta muted">{role.period}</p>
+                {role.writeups?.map(({ title, paragraphs }) => (
+                  <section class="writeup">
+                    <h5>{title}</h5>
+                    {paragraphs.map((paragraph) => <p class="writeup-copy">{paragraph}</p>)}
+                  </section>
+                ))}
+              </>
+            ))}
+            {active.roles?.length && active.bullets.length > 0 ? (
+              <h4 class="label">Other Guidewire work</h4>
+            ) : null}
             {active.bullets.length > 0 && (
               <ul class="bullets">
                 {active.bullets.map((b) => (
@@ -164,6 +186,19 @@ const active = items.find((i) => i.id === "guidewire") ?? items[items.length - 1
     margin-top: 14px;
     padding-top: 14px;
     border-top: 1px solid var(--line);
+  }
+  .detail :global(.writeup) {
+    margin-block: 12px 18px;
+  }
+  .detail :global(.writeup h5) {
+    margin: 0;
+    font-weight: 700;
+  }
+  .detail :global(.writeup-copy) {
+    max-width: 78ch;
+    margin: 6px 0 12px;
+    color: var(--ink-soft);
+    line-height: 1.6;
   }
   .detail :global(.role) {
     margin: 0;
