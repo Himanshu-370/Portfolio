@@ -148,7 +148,7 @@ export const profile: Profile = {
         "Maintained >80% unit test coverage through rigorous testing practices, code reviews, and CI enforcement.",
       ],
       summary:
-        "I worked on an enterprise knowledge assistant that retrieves information from structured and unstructured sources and turns natural-language questions into SQL. My work covered the quality of the knowledge it relied on, how the agent used that knowledge, and how engineers could troubleshoot it.",
+        "I joined Guidewire as an intern in 2024 and now work as a Software Engineer II. I’ve worked on cloud data services, including how they provision resources, handle lifecycle events, and recover across regions. I’ve also worked on an enterprise AI assistant, building checks for the knowledge it uses and improving how it generates SQL and how engineers troubleshoot it.",
       roles: [
         {
           title: "Software Engineer II",
@@ -156,10 +156,10 @@ export const profile: Profile = {
           end: null,
           writeups: [
             {
-              title: "Measuring knowledge-base quality during ingestion",
+              title: "Checking the knowledge an agent relies on",
               paragraphs: [
-                "I built an evaluation suite to check whether the knowledge generated during ingestion was complete enough to use. The suite started as a local tool and grew to ten deterministic checks covering description coverage, metadata fidelity, lineage resolution, query examples, and section completeness. I added tests for empty and failed inputs so the evaluator could report those cases clearly.",
-                "I integrated it into the ingestion workflow as a report-only stage. Each evaluation writes a machine-readable report to object storage, publishes a short workflow summary, and emits structured logs. Engineers can see which checks failed while the knowledge-base build continues.",
+                "A knowledge-base build can finish even when the output is missing descriptions, links between data, or useful query examples. I built ten checks to catch those gaps during ingestion and tested how they handle empty inputs and failed runs.",
+                "I wired the checks into the ingestion workflow so engineers get a short summary and a detailed report. The checks flag what needs attention while the build keeps running. I’m now turning those checks into a reusable evaluation framework for knowledge-base ingestion.",
               ],
             },
           ],
@@ -170,24 +170,38 @@ export const profile: Profile = {
           end: "2026-09",
           writeups: [
             {
-              title: "Debugging a natural-language-to-SQL failure",
+              title: "Getting a stuck SQL agent to finish the query",
               paragraphs: [
-                "An intermittent failure showed up in two ways. The agent sometimes got stuck repeating schema lookups until the request timed out. In other cases, it guessed a field and generated invalid SQL. I traced the failure to ambiguous schema discovery and updated the agent’s guidance to favor canonical fields, rule out unsuitable columns, and use schema-backed fields where available.",
-                "I reran the previously failing query. The agent completed the request, selected the appropriate field, and produced SQL that passed both SQL validation and downstream query checks.",
+                "The same question could send the agent down two paths. It could keep looking up the schema until it timed out, or guess a field and return SQL that didn’t work. I traced both behaviors to ambiguous schema lookups and updated the guidance to steer the agent toward the right fields.",
+                "I reran the question that had exposed the problem. The agent finished, chose the right field, and produced SQL that passed validation and the downstream query checks.",
               ],
             },
             {
-              title: "Making agent instructions easier to maintain",
+              title: "Breaking up one large set of agent instructions",
               paragraphs: [
-                "The agent’s main instruction file combined guidance for several different tasks. I moved that guidance into six skills the agent could load on demand, covering SQL generation, SQL validation, schema discovery, lineage, business terminology, and error recovery.",
-                "I connected the skills to the framework’s loading middleware and exercised representative queries across the skill set. The main instruction file went from roughly 462 lines to 250, and each skill could be maintained independently.",
+                "The agent used one file for everything from finding tables to checking SQL and recovering from errors. That made it harder to change the guidance for one task on its own. I split it into six skills the agent could load when it needed them.",
+                "I wired the skills into the framework and tried representative queries across all six. The main file went from roughly 462 lines to 250, with each skill now maintained on its own.",
               ],
             },
             {
-              title: "Making agent API requests easier to troubleshoot",
+              title: "Following an agent request through the logs",
               paragraphs: [
-                "I built reusable dashboards for API performance and errors, with request-level views that could be used across development and production. I also added tenant, workspace, and conversation-thread identifiers to structured logs.",
-                "Those identifiers gave engineers a way to correlate API activity with the relevant workspace and conversation during troubleshooting without relying on full conversation payloads.",
+                "When an API request was slow or failed, engineers needed to connect it to the right tenant, workspace, and conversation. I added those identifiers to structured logs and built dashboards with request-level views of performance and errors.",
+                "The same dashboards could be used in development and production. Engineers could follow a request using the identifiers in the logs without pulling up the full conversation.",
+              ],
+            },
+            {
+              title: "Testing recovery in another region",
+              paragraphs: [
+                "Moving the service to another region meant coordinating three things at once. The database had to switch roles, the application had to scale in the right region, and event processing had to run in the right place.",
+                "I helped exercise manual failover and failback in a proof of concept. Once the service was running in the recovery region, I checked that its APIs worked there.",
+              ],
+            },
+            {
+              title: "Finding why a deletion event pointed to an old run",
+              paragraphs: [
+                "A deletion event could carry an identifier from an earlier provisioning cycle. The mismatch showed up when the same workflow was run more than once, so I repeated the provision and deprovision sequence and compared what the API returned with the events the service sent.",
+                "I documented the sequence that exposed the mismatch so the team could reproduce it and see exactly where the API state and the event disagreed.",
               ],
             },
           ],
