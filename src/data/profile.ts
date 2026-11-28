@@ -77,9 +77,10 @@ export const profile: Profile = {
     tail: "keeping infra observable & agents honest.",
     rotating: [
       "making AI agents easier to trust.",
-      "turning “what depends on this?” into a map.",
       "sending fixes upstream when I find them.",
-      "away from keyboard, probably cooking.",
+      "away from keyboard, probably playing football or cooking.",
+      "opening a PR because it bothered me.",
+      "building the tools I wish I had yesterday.",
     ],
   },
   intro:
