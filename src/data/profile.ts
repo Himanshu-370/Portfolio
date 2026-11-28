@@ -76,10 +76,10 @@ export const profile: Profile = {
     lead: "Software engineer",
     tail: "keeping infra observable & agents honest.",
     rotating: [
-      "building AI agents that ship to production.",
-      "turning plain questions into SQL with LLMs.",
-      "sending fixes upstream to etcd & KubeVela.",
-      "making AWS dependencies visible.",
+      "making AI agents easier to trust.",
+      "turning “what depends on this?” into a map.",
+      "sending fixes upstream when I find them.",
+      "away from keyboard, probably cooking.",
     ],
   },
   intro:
