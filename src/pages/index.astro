@@ -5,6 +5,7 @@ import Hero from "@/components/Hero.astro";
 import StatTiles from "@/components/StatTiles.astro";
 import Services from "@/components/Services.astro";
 import EventLog from "@/components/EventLog.astro";
+import Moments from "@/components/Moments.astro";
 import CareerTrace from "@/components/CareerTrace.astro";
 import BottomTiles from "@/components/BottomTiles.astro";
 import BookCall from "@/components/BookCall.astro";
@@ -24,6 +25,7 @@ const { profile, stats, projects, events, spans, data } = await getSiteData();
     <Services projects={projects} />
     <EventLog events={events} />
   </section>
+  <Moments />
   <CareerTrace career={profile.career} achievements={profile.achievements} spans={spans} />
   <BottomTiles skills={profile.skills} interests={profile.interests} socials={profile.socials} />
   <BookCall
