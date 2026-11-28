@@ -11,6 +11,13 @@ export interface CareerSpan {
   kind: "education" | "work" | "oss";
   metrics: string[];
   bullets: string[];
+  summary?: string;
+  roles?: {
+    title: string;
+    start: YearMonth;
+    end: YearMonth | null;
+    writeups?: { title: string; paragraphs: string[] }[];
+  }[];
 }
 
 export interface ProjectOverride {
@@ -125,7 +132,7 @@ export const profile: Profile = {
     {
       id: "guidewire",
       label: "Guidewire",
-      role: "Software Engineer II",
+      role: "Software Engineering",
       org: "Guidewire Software",
       start: "2024-01",
       end: null,
@@ -133,12 +140,62 @@ export const profile: Profile = {
       kind: "work",
       metrics: ["50+ engineers served", "60% effort reduction", ">80% test coverage"],
       bullets: [
-        "Intern Jan–May 2024; full-time since Jun 2024.",
         "Built React dashboards for infrastructure usage monitoring, serving 50+ internal engineers with real-time visibility into AWS resource allocation and cost metrics.",
         "Developed secure service APIs with role-based access control and audit logging, reducing unauthorized access incidents across staging and production environments.",
         "Automated weekly operational reporting using Python, MySQL, and Slack APIs, cutting manual tracking effort by 60% and eliminating reporting delays for stakeholder teams.",
         "Built Kafka-based event-driven integration for cloud infrastructure lifecycle tracking, including schema design, listener lifecycle management, and reconciliation APIs used for billing and compliance reporting.",
         "Maintained >80% unit test coverage through rigorous testing practices, code reviews, and CI enforcement.",
+      ],
+      summary:
+        "I worked on an enterprise knowledge assistant that retrieves information from structured and unstructured sources and turns natural-language questions into SQL. My work covered the quality of the knowledge it relied on, how the agent used that knowledge, and how engineers could troubleshoot it.",
+      roles: [
+        {
+          title: "Software Engineer II",
+          start: "2026-10",
+          end: null,
+          writeups: [
+            {
+              title: "Measuring knowledge-base quality during ingestion",
+              paragraphs: [
+                "I built an evaluation suite to check whether the knowledge generated during ingestion was complete enough to use. The suite started as a local tool and grew to ten deterministic checks covering description coverage, metadata fidelity, lineage resolution, query examples, and section completeness. I added tests for empty and failed inputs so the evaluator could report those cases clearly.",
+                "I integrated it into the ingestion workflow as a report-only stage. Each evaluation writes a machine-readable report to object storage, publishes a short workflow summary, and emits structured logs. Engineers can see which checks failed while the knowledge-base build continues.",
+              ],
+            },
+          ],
+        },
+        {
+          title: "Software Engineer I",
+          start: "2024-06",
+          end: "2026-09",
+          writeups: [
+            {
+              title: "Debugging a natural-language-to-SQL failure",
+              paragraphs: [
+                "An intermittent failure showed up in two ways. The agent sometimes got stuck repeating schema lookups until the request timed out. In other cases, it guessed a field and generated invalid SQL. I traced the failure to ambiguous schema discovery and updated the agent’s guidance to favor canonical fields, rule out unsuitable columns, and use schema-backed fields where available.",
+                "I reran the previously failing query. The agent completed the request, selected the appropriate field, and produced SQL that passed both SQL validation and downstream query checks.",
+              ],
+            },
+            {
+              title: "Making agent instructions easier to maintain",
+              paragraphs: [
+                "The agent’s main instruction file combined guidance for several different tasks. I moved that guidance into six skills the agent could load on demand, covering SQL generation, SQL validation, schema discovery, lineage, business terminology, and error recovery.",
+                "I connected the skills to the framework’s loading middleware and exercised representative queries across the skill set. The main instruction file went from roughly 462 lines to 250, and each skill could be maintained independently.",
+              ],
+            },
+            {
+              title: "Making agent API requests easier to troubleshoot",
+              paragraphs: [
+                "I built reusable dashboards for API performance and errors, with request-level views that could be used across development and production. I also added tenant, workspace, and conversation-thread identifiers to structured logs.",
+                "Those identifiers gave engineers a way to correlate API activity with the relevant workspace and conversation during troubleshooting without relying on full conversation payloads.",
+              ],
+            },
+          ],
+        },
+        {
+          title: "Software Engineering Intern",
+          start: "2024-01",
+          end: "2024-05",
+        },
       ],
     },
   ],
