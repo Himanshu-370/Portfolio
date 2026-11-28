@@ -159,7 +159,7 @@ export const profile: Profile = {
               title: "Checking the knowledge an agent relies on",
               paragraphs: [
                 "A knowledge-base build can finish even when the output is missing descriptions, links between data, or useful query examples. I built ten checks to catch those gaps during ingestion and tested how they handle empty inputs and failed runs.",
-                "I wired the checks into the ingestion workflow so engineers get a short summary and a detailed report. The checks flag what needs attention while the build keeps running.",
+                "I wired the checks into the ingestion workflow so engineers get a short summary and a detailed report. The checks flag what needs attention while the build keeps running. I’m now turning those checks into a reusable evaluation framework for knowledge-base ingestion.",
               ],
             },
           ],
