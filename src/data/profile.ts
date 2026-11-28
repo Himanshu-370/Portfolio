@@ -190,6 +190,26 @@ export const profile: Profile = {
                 "Those identifiers gave engineers a way to correlate API activity with the relevant workspace and conversation during troubleshooting without relying on full conversation payloads.",
               ],
             },
+            {
+              title: "Validating cross-region recovery for a cloud data service",
+              paragraphs: [
+                "I contributed to a disaster recovery proof of concept that exercised manual failover and failback between a primary region and a recovery region. The exercise covered switching database roles, scaling the application, and controlling event processing in each region.",
+                "After the service was deployed in the recovery region, I verified that its APIs worked there.",
+              ],
+            },
+            {
+              title: "Tracing a stale identifier in service lifecycle events",
+              paragraphs: [
+                "I reproduced repeated provisioning and deprovisioning cycles and compared the API responses with the events the service emitted. A deletion event could reference an identifier from an earlier cycle instead of the latest one.",
+                "I documented the sequence that exposed the mismatch so the team could reproduce it and compare API state with the emitted events.",
+              ],
+            },
+            {
+              title: "Expanding end-to-end API test coverage",
+              paragraphs: [
+                "I added a Karate test for an API exploration workflow and documented how to run and extend the test framework. The guide covers environment configuration, authentication, shared setup, cloud-service utilities, and test reports.",
+              ],
+            },
           ],
         },
         {
